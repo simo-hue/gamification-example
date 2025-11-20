@@ -26,15 +26,18 @@ export async function challengeFriend(challengerId: string, friendId: string, qu
             return { success: false, message: 'Challenge already pending!' };
         }
 
-        // 2. Create new challenge
+        // 2. Create new challenge with random seed
+        const quizSeed = Math.floor(Math.random() * 1000000);
+
         const { data, error } = await supabase
             .from('challenges')
             .insert({
                 challenger_id: challengerId,
                 opponent_id: friendId,
                 quiz_id: quizId,
+                quiz_seed: quizSeed,
                 status: 'pending'
-            } as any)
+            })
             .select()
             .single();
 
@@ -49,5 +52,18 @@ export async function challengeFriend(challengerId: string, friendId: string, qu
 }
 
 export async function acceptChallenge(challengeId: string) {
-    // Logic to accept and start quiz would go here
+    try {
+        const { data, error } = await supabase
+            .from('challenges')
+            .select('*')
+            .eq('id', challengeId)
+            .single();
+
+        if (error) throw error;
+
+        return { success: true, challenge: data };
+    } catch (error) {
+        console.error('Error accepting challenge:', error);
+        return { success: false, message: 'Failed to accept challenge.' };
+    }
 }

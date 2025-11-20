@@ -8,6 +8,12 @@ import { useUserStore } from '@/store/useUserStore';
 import { calculateXp } from '@/lib/gamification';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { createClient } from '@supabase/supabase-js';
+import { Database } from '@/types/supabase';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 export default function QuizPage() {
     const params = useParams();
@@ -19,6 +25,8 @@ export default function QuizPage() {
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
+    const [score, setScore] = useState(0);
+    const [showShopModal, setShowShopModal] = useState(false);
     const [showReward, setShowReward] = useState(false);
 
     useEffect(() => {
@@ -29,7 +37,34 @@ export default function QuizPage() {
     }, [params.id]);
 
     if (!quiz) return <div className="p-4">Loading...</div>;
-    if (lives <= 0) return (
+
+    // Shop Modal
+    if (showShopModal) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl max-w-sm w-full text-center space-y-4 animate-in zoom-in duration-200">
+                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto text-2xl">
+                        💔
+                    </div>
+                    <h2 className="text-xl font-bold">Out of Hearts!</h2>
+                    <p className="text-zinc-500">You need hearts to keep learning. Refill them in the shop.</p>
+                    <div className="flex flex-col gap-2">
+                        <Link href="/shop" className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold">
+                            Go to Shop
+                        </Link>
+                        <button
+                            onClick={() => router.push('/')}
+                            className="w-full py-3 text-zinc-500 font-bold"
+                        >
+                            Quit Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (lives <= 0 && !showShopModal) return (
         <div className="flex flex-col items-center justify-center h-[60vh] space-y-4 text-center">
             <h2 className="text-2xl font-bold text-red-500">Out of Lives!</h2>
             <p>Wait for them to refill or visit the shop.</p>
@@ -43,27 +78,49 @@ export default function QuizPage() {
     const currentQuestion = quiz.questions[currentQuestionIndex];
     const isLastQuestion = currentQuestionIndex === quiz.questions.length - 1;
 
-    const handleOptionClick = (index: number) => {
-        if (isAnswered) return;
-        setSelectedOption(index);
+    const handleAnswer = async (optionIndex: number) => {
+        if (selectedOption !== null) return; // Prevent multiple clicks
+        setSelectedOption(optionIndex);
 
-        const correct = index === currentQuestion.correctAnswer;
-        setIsCorrect(correct);
+        const currentQ = quiz.questions[currentQuestionIndex];
+        const isCorrectAnswer = optionIndex === currentQ.correctAnswer;
+
+        setIsCorrect(isCorrectAnswer);
         setIsAnswered(true);
 
-        if (!correct) {
+        if (isCorrectAnswer) {
+            setScore(score + 1);
+            // Play success sound (not implemented)
+        } else {
+            // Wrong answer
             decrementLives();
+
+            // Call RPC to decrement hearts in DB
+            const { error } = await supabase.rpc('decrement_hearts');
+            if (error) console.error('Error decrementing hearts:', error);
+
+            if (lives <= 1) {
+                setShowShopModal(true);
+            }
         }
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (isLastQuestion) {
             // Finish Quiz
-            if (isCorrect || isAnswered) { // Ensure they answered the last one
-                const xpEarned = calculateXp(quiz.xpReward, 0); // Simplified streak for now
+            if (isCorrect || isAnswered) {
+                const xpEarned = calculateXp(quiz.xpReward, 0);
                 addXp(xpEarned);
-                incrementStreak(); // Simple increment for demo
+                incrementStreak();
                 setShowReward(true);
+
+                // Save progress to DB
+                const { error } = await supabase.from('user_progress').insert({
+                    user_id: (await supabase.auth.getUser()).data.user?.id!,
+                    quiz_id: params.id as string,
+                    score: score * 10
+                });
+                if (error) console.error('Error saving progress:', error);
             }
         } else {
             setCurrentQuestionIndex(prev => prev + 1);
@@ -130,7 +187,7 @@ export default function QuizPage() {
                         return (
                             <button
                                 key={index}
-                                onClick={() => handleOptionClick(index)}
+                                onClick={() => handleAnswer(index)}
                                 disabled={isAnswered}
                                 className={cn(
                                     "w-full p-4 text-left rounded-xl border-2 font-medium transition-all",

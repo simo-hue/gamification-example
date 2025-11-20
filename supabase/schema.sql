@@ -77,14 +77,77 @@ create table challenges (
   challenger_id uuid references profiles(id) not null,
   opponent_id uuid references profiles(id) not null,
   quiz_id text not null, -- ID of the quiz being played
+  quiz_seed integer, -- Ensure same questions
   challenger_score integer,
   opponent_score integer,
+  winner_id uuid references profiles(id),
   status text check (status in ('pending', 'completed', 'declined')) default 'pending',
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 
 alter table challenges enable row level security;
 
-create policy "Users can view challenges they are involved in."
-  on challenges for select
   using ( auth.uid() = challenger_id or auth.uid() = opponent_id );
+
+-- User Progress table
+create table user_progress (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references profiles(id) not null,
+  quiz_id text not null,
+  score integer not null,
+  completed_at timestamp with time zone default timezone('utc'::text, now())
+);
+
+alter table user_progress enable row level security;
+
+create policy "Users can view their own progress."
+  on user_progress for select
+  using ( auth.uid() = user_id );
+
+create policy "Users can insert their own progress."
+  on user_progress for insert
+  with check ( auth.uid() = user_id );
+
+-- RPC: Redeem Referral Code
+create or replace function redeem_code(code text)
+returns json as $$
+declare
+  referrer_id uuid;
+  referrer_hearts int;
+begin
+  -- Find referrer
+  select id, current_hearts into referrer_id, referrer_hearts
+  from profiles
+  where referral_code = upper(code);
+
+  if referrer_id is null then
+    return '{"success": false, "message": "Invalid code"}'::json;
+  end if;
+
+  if referrer_id = auth.uid() then
+    return '{"success": false, "message": "Cannot redeem your own code"}'::json;
+  end if;
+
+  -- Update Referrer (Bonus Heart)
+  update profiles
+  set current_hearts = least(5, current_hearts + 1)
+  where id = referrer_id;
+
+  -- Update User (Bonus XP)
+  update profiles
+  set xp = xp + 100
+  where id = auth.uid();
+
+  return '{"success": true, "message": "Code redeemed! +100 XP"}'::json;
+end;
+$$ language plpgsql security definer;
+
+-- RPC: Decrement Hearts
+create or replace function decrement_hearts()
+returns void as $$
+begin
+  update profiles
+  set current_hearts = greatest(0, current_hearts - 1)
+  where id = auth.uid();
+end;
+$$ language plpgsql security definer;
