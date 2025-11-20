@@ -12,6 +12,33 @@ create table profiles (
   constraint username_length check (char_length(username) >= 3)
 );
 
+-- Add referral code
+alter table profiles add column referral_code text unique;
+
+-- Function to handle new user creation
+create or replace function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.profiles (id, username, avatar_url, xp, current_hearts, highest_streak, is_premium, referral_code)
+  values (
+    new.id,
+    new.raw_user_meta_data->>'full_name',
+    new.raw_user_meta_data->>'avatar_url',
+    0,
+    5,
+    0,
+    false,
+    upper(substring(md5(random()::text) from 1 for 6)) -- Generate random 6-char code
+  );
+  return new;
+end;
+$$ language plpgsql security definer;
+
+-- Trigger for new user creation
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
 -- Set up Row Level Security (RLS)
 alter table profiles enable row level security;
 

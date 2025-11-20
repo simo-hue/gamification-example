@@ -13,6 +13,25 @@ export default function Dashboard() {
         <p className="text-zinc-500 dark:text-zinc-400">Master AI Safety one step at a time.</p>
       </div>
 
+      {/* Pending Challenges Notification */}
+      <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-4 rounded-xl flex items-center justify-between animate-in slide-in-from-top-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-800 rounded-full flex items-center justify-center text-xl">
+            ⚔️
+          </div>
+          <div>
+            <h3 className="font-bold text-sm text-yellow-900 dark:text-yellow-100">New Challenge!</h3>
+            <p className="text-xs text-yellow-700 dark:text-yellow-300">DeepLearner challenged you.</p>
+          </div>
+        </div>
+        <Link
+          href="/quiz/1"
+          className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-bold rounded-lg transition-colors"
+        >
+          Accept
+        </Link>
+      </div>
+
       <div className="space-y-4">
         {MOCK_QUIZZES.map((quiz, index) => (
           <div
