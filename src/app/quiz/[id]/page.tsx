@@ -165,7 +165,10 @@ export default function QuizPage() {
                                     {isCorrect ? "Correct!" : "Incorrect"}
                                 </p>
                                 {!isCorrect && (
-                                    <p className="text-sm text-red-600 dark:text-red-300">Correct: {currentQuestion.options[currentQuestion.correctAnswer]}</p>
+                                    <div className="mt-1 text-sm text-red-600 dark:text-red-300">
+                                        <p className="font-semibold">Correct Answer: {currentQuestion.options[currentQuestion.correctAnswer]}</p>
+                                        <p className="mt-1 italic opacity-90">{currentQuestion.explanation}</p>
+                                    </div>
                                 )}
                             </div>
                         </div>
