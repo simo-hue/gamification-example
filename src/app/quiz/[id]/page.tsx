@@ -11,7 +11,8 @@ import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/types/supabase';
 import { VisualQuizCard } from '@/components/gamification/VisualQuizCard';
-import { QuizFeedback } from '@/components/gamification/QuizFeedback';
+import { QuizActionPanel } from '@/components/gamification/QuizActionPanel';
+import { SystemFailureModal } from '@/components/gamification/SystemFailureModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
@@ -67,16 +68,26 @@ export default function QuizPage() {
         );
     }
 
-    if (lives <= 0 && !showShopModal) return (
-        <div className="flex flex-col items-center justify-center h-[60vh] space-y-4 text-center">
-            <h2 className="text-2xl font-bold text-cyber-red font-orbitron text-glow-danger">SIGNAL LOST</h2>
-            <p className="text-zinc-400">Connection terminated. Lives depleted.</p>
-            <Link href="/shop" className="px-6 py-2 bg-cyber-blue text-cyber-dark rounded-full font-bold hover:bg-cyber-green transition-colors">
-                Recharge Signal
-            </Link>
-            <Link href="/" className="text-zinc-500 hover:text-white">Return to Base</Link>
-        </div>
-    );
+    // ... inside component ...
+
+    if (lives <= 0 && !showShopModal) {
+        return (
+            <SystemFailureModal
+                onRefill={() => {
+                    // Demo: Refill lives immediately
+                    const { refillLives } = useUserStore.getState();
+                    refillLives();
+                    alert("EMERGENCY RECHARGE SUCCESSFUL! -0.99€ (Demo)");
+                }}
+                onPremium={() => {
+                    // Demo: Activate premium
+                    const { setInfiniteLives } = useUserStore.getState();
+                    setInfiniteLives(true);
+                    alert("UNLIMITED POWER ACQUIRED! -4.99€ (Demo)");
+                }}
+            />
+        );
+    }
 
     const currentQuestion = quiz.questions[currentQuestionIndex];
     const isLastQuestion = currentQuestionIndex === quiz.questions.length - 1;
@@ -148,7 +159,7 @@ export default function QuizPage() {
     }
 
     return (
-        <div className="space-y-6 relative min-h-screen pb-40"> {/* Added pb-40 for bottom sheet clearance */}
+        <div className="space-y-6 relative min-h-screen pb-64"> {/* Added pb-64 for Action Panel clearance */}
             {/* HUD Header */}
             <div className="flex items-center justify-between glass-panel p-3 rounded-full">
                 <Link href="/" className="p-2 hover:bg-cyber-gray/50 rounded-full transition-colors">
@@ -238,10 +249,10 @@ export default function QuizPage() {
                 </motion.div>
             </AnimatePresence>
 
-            {/* Feedback Modal */}
+            {/* Action Panel */}
             <AnimatePresence>
                 {isAnswered && (
-                    <QuizFeedback
+                    <QuizActionPanel
                         isCorrect={isCorrect}
                         correctAnswerText={currentQuestion.options[currentQuestion.correctAnswer]}
                         explanation={currentQuestion.explanation}
