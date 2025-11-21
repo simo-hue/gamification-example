@@ -9,6 +9,9 @@ import { motion } from 'framer-motion';
 export function BottomNav() {
     const pathname = usePathname();
 
+    // Hide BottomNav on quiz pages for immersion and to prevent overlay issues
+    if (pathname?.startsWith('/quiz')) return null;
+
     const navItems = [
         {
             icon: Map,

@@ -169,25 +169,38 @@ export default function QuizPage() {
     }
 
     return (
-        <div className="space-y-6 relative min-h-screen pb-64"> {/* Added pb-64 for Action Panel clearance */}
+        <div className="space-y-6 relative min-h-screen pb-80"> {/* Increased padding for larger Action Panel */}
             {/* HUD Header */}
-            <div className="flex items-center justify-between glass-panel p-3 rounded-full">
-                <Link href="/" className="p-2 hover:bg-cyber-gray/50 rounded-full transition-colors">
-                    <ArrowLeft className="w-5 h-5 text-cyber-blue" />
+            {/* HUD Header */}
+            <div className="flex items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-white/10 shadow-lg relative overflow-hidden z-10">
+                <Link href="/" className="p-3 hover:bg-white/10 rounded-xl transition-all border border-transparent hover:border-white/20 group shrink-0">
+                    <ArrowLeft className="w-5 h-5 text-cyber-blue group-hover:text-white transition-colors" />
                 </Link>
 
-                {/* Progress Bar - Laser Style */}
-                <div className="flex-1 mx-4 h-1 bg-cyber-dark/50 rounded-full overflow-hidden relative">
-                    <motion.div
-                        className="absolute top-0 left-0 h-full bg-cyber-blue shadow-[0_0_10px_#45A29E]"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }}
-                        transition={{ duration: 0.5 }}
-                    />
-                </div>
+                <div className="flex-1 flex flex-col gap-2">
+                    <div className="flex justify-between items-end px-1">
+                        <span className="text-[10px] font-bold tracking-widest text-cyber-gray uppercase">System Sync</span>
+                        <span className="text-sm font-bold font-orbitron text-cyber-blue text-glow">
+                            {currentQuestionIndex + 1} <span className="text-cyber-gray text-xs">/ {quiz.questions.length}</span>
+                        </span>
+                    </div>
 
-                <div className="text-xs font-mono text-cyber-blue">
-                    {currentQuestionIndex + 1}/{quiz.questions.length}
+                    {/* Progress Bar Container */}
+                    <div className="h-3 bg-black/50 rounded-full overflow-hidden border border-white/10 relative">
+                        {/* Background pattern */}
+                        <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_5px,#000_5px,#000_10px)]" />
+
+                        {/* Fill */}
+                        <motion.div
+                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-cyber-blue to-cyber-purple shadow-[0_0_15px_rgba(69,162,158,0.6)]"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }}
+                            transition={{ duration: 0.5, ease: "circOut" }}
+                        >
+                            {/* Leading Edge Shine */}
+                            <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-white/80 shadow-[0_0_10px_white]" />
+                        </motion.div>
+                    </div>
                 </div>
             </div>
 
