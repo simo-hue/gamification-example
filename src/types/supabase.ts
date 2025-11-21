@@ -316,6 +316,14 @@ export interface Database {
                 Args: Record<PropertyKey, never>
                 Returns: Json
             }
+            complete_level: {
+                Args: {
+                    p_user_id: string
+                    p_level_id: string
+                    p_score: number
+                }
+                Returns: Json
+            }
         }
         Enums: {
             [_ in never]: never

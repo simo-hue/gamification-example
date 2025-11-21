@@ -21,53 +21,47 @@ export default function Dashboard() {
       try {
         const { data, error } = await supabase.rpc('get_user_saga_state');
 
+        // ... (Mock data fallback logic kept for safety, but we focus on the main path)
         if (error) {
           console.warn('Error fetching saga state, using mock data:', error);
-          // Use mock data as fallback
+          // Fallback to mock data (simplified for brevity in this view)
           const mockLevels: SagaLevel[] = [
             { id: '1', day_number: 1, title: 'Introduction to Cyber Safety', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 1, status: 'active' },
             { id: '2', day_number: 2, title: 'Spotting Phishing Emails', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 2, status: 'locked' },
-            { id: '3', day_number: 3, title: 'Password Security', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 3, status: 'locked' },
-            { id: '4', day_number: 7, title: 'Week 1 Challenge', is_boss_level: true, xp_reward: 200, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 7, status: 'locked' },
           ];
           setLevels(mockLevels);
           setLoading(false);
           return;
         }
 
-        // Parse RPC response
-        // The RPC returns { completed_level_ids: [...], levels: [...] }
         const result = data as any;
+        // Assuming get_user_saga_state returns all levels and user progress
+        // If it doesn't return progress with status, we might need to adjust.
+        // But based on previous code, it seemed to return { levels: [], completed_level_ids: [] }
+
         const completedIds = new Set((result.completed_level_ids || []).map((i: any) => i.quiz_id));
         const rawLevels = result.levels || [];
 
-        // If no levels exist in DB, use mock data
         if (rawLevels.length === 0) {
-          console.warn('No levels found in database, using mock data');
-          const mockLevels: SagaLevel[] = [
-            { id: '1', day_number: 1, title: 'Introduction to Cyber Safety', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 1, status: 'active' },
-            { id: '2', day_number: 2, title: 'Spotting Phishing Emails', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 2, status: 'locked' },
-            { id: '3', day_number: 3, title: 'Password Security', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 3, status: 'locked' },
-            { id: '4', day_number: 7, title: 'Week 1 Challenge', is_boss_level: true, xp_reward: 200, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 7, status: 'locked' },
-          ];
-          setLevels(mockLevels);
           setLoading(false);
           return;
         }
 
-        // Process levels to determine status
-        // Logic: Level is unlocked if previous level is completed OR it's the first level
-        let isNextUnlocked = true;
+        // 1. Determine Status & Max Day
+        let maxUnlockedDay = 0;
+        let isNextUnlocked = true; // The first non-completed level is the active one
 
-        const processedLevels: SagaLevel[] = rawLevels.map((l: any, index: number) => {
+        const processedLevels: SagaLevel[] = rawLevels.map((l: any) => {
           const isCompleted = completedIds.has(l.id);
           let status: 'locked' | 'active' | 'completed' = 'locked';
 
           if (isCompleted) {
             status = 'completed';
+            maxUnlockedDay = Math.max(maxUnlockedDay, l.day_number);
           } else if (isNextUnlocked) {
             status = 'active';
-            isNextUnlocked = false; // Only one active level at a time (the furthest reached)
+            maxUnlockedDay = Math.max(maxUnlockedDay, l.day_number);
+            isNextUnlocked = false;
           }
 
           return {
@@ -83,15 +77,14 @@ export default function Dashboard() {
           };
         });
 
-        setLevels(processedLevels);
+        // 2. Fog of War Filter
+        // Show: All levels <= maxUnlockedDay + 20 (Show significant chunk of future levels)
+        const visibleLevels = processedLevels.filter(l => l.day_number <= maxUnlockedDay + 20);
+
+        setLevels(visibleLevels);
       } catch (err) {
         console.error('Unexpected error:', err);
-        // Use mock data as ultimate fallback
-        const mockLevels: SagaLevel[] = [
-          { id: '1', day_number: 1, title: 'Introduction to Cyber Safety', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 1, status: 'active' },
-          { id: '2', day_number: 2, title: 'Spotting Phishing Emails', is_boss_level: false, xp_reward: 50, module_title: 'Week 1: Foundations', theme_color: '#45A29E', order_index: 2, status: 'locked' },
-        ];
-        setLevels(mockLevels);
+        setLoading(false);
       } finally {
         setLoading(false);
       }

@@ -118,17 +118,27 @@ export default function QuizPage() {
     const handleNext = async () => {
         if (isLastQuestion) {
             if (isCorrect || isAnswered) {
-                const { xp, badgeId } = calculateRewards(quiz, 0);
+                const { xp } = calculateRewards(quiz, 0); // Base XP
                 addXp(xp);
                 incrementStreak();
                 setShowReward(true);
 
-                const { error } = await supabase.from('user_progress').insert({
-                    user_id: (await supabase.auth.getUser()).data.user?.id!,
-                    quiz_id: params.id as string,
-                    score: xp
-                });
-                if (error) console.error('Error saving progress:', error);
+                // Call the complete_level RPC
+                try {
+                    const { data, error } = await supabase.rpc('complete_level', {
+                        p_user_id: (await supabase.auth.getUser()).data.user?.id!,
+                        p_level_id: params.id as string,
+                        p_score: score + (isCorrect ? 1 : 0) // Add current question to score if correct
+                    });
+
+                    if (error) throw error;
+                    console.log('Level completed:', data);
+
+                    // Refresh router to update Saga Map state
+                    router.refresh();
+                } catch (error) {
+                    console.error('Error completing level:', error);
+                }
             }
         } else {
             setCurrentQuestionIndex(prev => prev + 1);

@@ -212,10 +212,10 @@ export function SagaMap({ levels }: SagaMapProps) {
                                             {/* Level Info Card */}
                                             <div
                                                 className={cn(
-                                                    "flex-1 p-4 rounded-xl border-l-4 transition-all duration-300 glass-card relative overflow-hidden",
-                                                    isLocked ? "border-cyber-gray/30 bg-black/20" :
-                                                        isActive ? "border-cyber-blue bg-cyber-blue/5" :
-                                                            isCompleted ? "border-cyber-green" :
+                                                    "flex-1 p-4 rounded-xl border-l-4 transition-all duration-300 glass-card relative overflow-hidden min-h-[100px] flex flex-col justify-center",
+                                                    isLocked ? "border-gray-800 bg-black/40" :
+                                                        isActive ? "border-cyber-blue bg-cyber-blue/5 shadow-[0_0_15px_rgba(69,162,158,0.1)]" :
+                                                            isCompleted ? "border-cyber-green bg-cyber-green/5 opacity-80 hover:opacity-100" :
                                                                 "border-cyber-gray",
                                                     isBoss && "fire-border bg-cyber-red/5",
                                                     isBoss && isLocked && "border-cyber-red/30 border-dashed"
@@ -223,47 +223,55 @@ export function SagaMap({ levels }: SagaMapProps) {
                                             >
                                                 {/* Next Up Badge */}
                                                 {isNextUp && (
-                                                    <div className="absolute top-0 right-0 bg-cyber-blue text-black text-[10px] font-bold px-2 py-0.5 rounded-bl-lg font-orbitron">
+                                                    <div className="absolute top-0 right-0 bg-yellow-500/10 text-yellow-500 text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-yellow-500/50 font-orbitron tracking-wider flex items-center gap-1 shadow-[0_0_10px_rgba(234,179,8,0.2)]">
+                                                        <Lock className="w-3 h-3" />
                                                         NEXT UNLOCK
+                                                    </div>
+                                                )}
+
+                                                {/* Active Badge */}
+                                                {isActive && (
+                                                    <div className="absolute top-0 right-0 bg-cyber-blue/10 text-cyber-blue text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-cyber-blue/50 font-orbitron tracking-wider flex items-center gap-1 shadow-[0_0_10px_rgba(69,162,158,0.2)] animate-pulse">
+                                                        <Play className="w-3 h-3 fill-current" />
+                                                        CURRENT MISSION
                                                     </div>
                                                 )}
 
                                                 {/* Boss Threat Badge */}
                                                 {isBoss && isLocked && (
-                                                    <div className="absolute top-0 right-0 bg-cyber-red/20 text-cyber-red text-[10px] font-bold px-2 py-0.5 rounded-bl-lg font-orbitron animate-pulse border-l border-b border-cyber-red/50">
-                                                        ⚠ THREAT DETECTED
+                                                    <div className="absolute top-0 right-0 bg-cyber-red/10 text-cyber-red text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-cyber-red/50 font-orbitron tracking-wider flex items-center gap-1 animate-pulse">
+                                                        <Skull className="w-3 h-3" />
+                                                        THREAT DETECTED
                                                     </div>
                                                 )}
 
-                                                <div className="flex justify-between items-start relative z-10">
-                                                    <div className="flex-1 min-w-0">
-                                                        <h4
-                                                            className={cn(
-                                                                "font-bold text-sm mb-1 font-orbitron tracking-wide",
-                                                                isActive && "text-cyber-blue text-glow",
-                                                                isBoss && !isLocked && "text-cyber-red text-glow-danger",
-                                                                isLocked && "text-zinc-500"
-                                                            )}
-                                                        >
-                                                            {isBoss ? 'BOSS LEVEL' : `Day ${level.day_number}`}
-                                                        </h4>
-                                                        <p className={cn(
-                                                            "text-xs line-clamp-1",
-                                                            isLocked ? "text-zinc-600 blur-[2px] select-none" : "text-gray-400"
-                                                        )}>
-                                                            {level.title}
-                                                        </p>
-                                                    </div>
-                                                    {level.xp_reward > 0 && !isLocked && (
-                                                        <span className="text-xs font-mono text-cyber-purple font-bold ml-2">
-                                                            +{level.xp_reward} XP
-                                                        </span>
-                                                    )}
+                                                <div className="relative z-10 pr-24"> {/* Added padding-right to avoid badge overlap */}
+                                                    <h4
+                                                        className={cn(
+                                                            "font-bold text-sm mb-1 font-orbitron tracking-wide",
+                                                            isActive && "text-cyber-blue text-glow",
+                                                            isBoss && !isLocked && "text-cyber-red text-glow-danger",
+                                                            isLocked ? "text-zinc-300" : "text-white"
+                                                        )}
+                                                    >
+                                                        {isBoss ? 'BOSS LEVEL' : `Day ${level.day_number}`}
+                                                    </h4>
+                                                    <p className={cn(
+                                                        "text-xs line-clamp-2 max-w-[85%]",
+                                                        isLocked ? "text-zinc-600 blur-[3px] select-none" : "text-gray-400"
+                                                    )}>
+                                                        {level.title}
+                                                    </p>
                                                 </div>
 
-                                                {/* Locked Overlay Pattern */}
-                                                {isLocked && (
-                                                    <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5 pointer-events-none" />
+                                                {/* XP Reward - Moved to Bottom Right */}
+                                                {level.xp_reward > 0 && (
+                                                    <div className={cn(
+                                                        "absolute bottom-2 right-3 text-xs font-mono font-bold flex items-center gap-1",
+                                                        isLocked ? "text-zinc-700" : "text-cyber-purple"
+                                                    )}>
+                                                        <span>+{level.xp_reward} XP</span>
+                                                    </div>
                                                 )}
                                             </div>
                                         </LevelWrapper>
