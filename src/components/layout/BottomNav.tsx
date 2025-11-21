@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Map, Trophy, LayoutGrid, User } from 'lucide-react';
+import { Map, Trophy, ShoppingBag, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
@@ -23,9 +23,9 @@ export function BottomNav() {
             activeColor: 'text-yellow-500'
         },
         {
-            icon: LayoutGrid,
-            label: 'Vault',
-            href: '/achievements',
+            icon: ShoppingBag,
+            label: 'Shop',
+            href: '/shop',
             activeColor: 'text-yellow-500'
         },
         {

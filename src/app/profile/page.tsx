@@ -44,6 +44,27 @@ interface LeaderboardEntry {
     rank: number;
 }
 
+import { MissionControl } from '@/components/gamification/MissionControl';
+import { ArtifactGrid } from '@/components/gamification/ArtifactGrid';
+import { Mission } from '@/components/gamification/MissionCard';
+import { Badge } from '@/components/gamification/BadgeCard';
+
+// Mock Data (Moved from AchievementsPage)
+const MOCK_MISSIONS: Mission[] = [
+    { id: '1', title: 'Daily Login', target_count: 1, current_count: 1, reward_xp: 50, is_completed: true, is_claimed: false, frequency: 'daily' },
+    { id: '2', title: 'Quiz Master', target_count: 3, current_count: 2, reward_xp: 150, is_completed: false, is_claimed: false, frequency: 'daily' },
+    { id: '3', title: 'Perfect Streak', target_count: 1, current_count: 1, reward_xp: 200, is_completed: true, is_claimed: true, frequency: 'weekly' },
+];
+
+const MOCK_BADGES: Badge[] = [
+    { id: '1', name: 'First Steps', description: 'Completed your first quiz.', icon_url: '👣', category: 'General', xp_bonus: 50, is_unlocked: true, earned_at: '2024-05-20', rarity: 'common' },
+    { id: '2', name: 'Shield Bearer', description: 'Secured account with 2FA.', icon_url: '🛡️', category: 'Defense', xp_bonus: 100, is_unlocked: true, earned_at: '2024-05-21', rarity: 'rare' },
+    { id: '3', name: 'Cyber Legend', description: 'Completed the 30-Day Buffer.', icon_url: '👑', category: 'Mastery', xp_bonus: 500, is_unlocked: true, earned_at: '2024-05-24', rarity: 'legendary' },
+    { id: '4', name: 'Phishing Terminator', description: 'Reported 10 phishing attempts.', icon_url: '🎣', category: 'Defense', xp_bonus: 200, is_unlocked: false, rarity: 'rare' },
+    { id: '5', name: 'Speed Demon', description: 'Finished a quiz in under 30s.', icon_url: '⚡', category: 'Speed', xp_bonus: 100, is_unlocked: false, rarity: 'common' },
+    { id: '6', name: 'Social Engineer', description: 'Invited 5 friends.', icon_url: '🤝', category: 'Social', xp_bonus: 150, is_unlocked: false, rarity: 'common' },
+];
+
 export default function ProfilePage() {
     const router = useRouter();
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -62,6 +83,18 @@ export default function ProfilePage() {
     const [leaderboardTab, setLeaderboardTab] = useState<'global' | 'friends'>('global');
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
     const [userRank, setUserRank] = useState<number>(0);
+
+    // Vault State
+    const [missions, setMissions] = useState<Mission[]>(MOCK_MISSIONS);
+    const [badges, setBadges] = useState<Badge[]>(MOCK_BADGES);
+    const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
+
+    const handleClaimMission = (id: string) => {
+        setMissions(prev => prev.map(m =>
+            m.id === id ? { ...m, is_claimed: true } : m
+        ));
+        // Trigger particle effect here
+    };
 
     useEffect(() => {
         fetchProfile();
@@ -206,7 +239,7 @@ export default function ProfilePage() {
     const progressPercent = Math.min(100, (currentLevelXp / 100) * 100);
 
     return (
-        <div className="space-y-8 pb-24 relative">
+        <div className="space-y-8 pb-32 relative">
             {/* Background Grid for Profile Page */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(69,162,158,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(69,162,158,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none -z-10" />
 
@@ -462,6 +495,91 @@ export default function ProfilePage() {
                     </AnimatePresence>
                 </div>
             </div>
+
+            {/* Divider: AGENT RECORD */}
+            <div className="relative flex items-center gap-4 py-4">
+                <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-cyber-gray to-transparent" />
+                <div className="text-xs font-mono text-cyber-gray uppercase tracking-[0.2em]">// AGENT RECORD</div>
+                <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-cyber-gray to-transparent" />
+            </div>
+
+            {/* Section D: Mission Control */}
+            <MissionControl missions={missions} onClaim={handleClaimMission} />
+
+            {/* Section E: Artifact Grid */}
+            <ArtifactGrid badges={badges} onSelectBadge={setSelectedBadge} />
+
+            {/* Badge Inspection Modal */}
+            <AnimatePresence>
+                {selectedBadge && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+                        onClick={() => setSelectedBadge(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.8, y: 20 }}
+                            className="bg-cyber-dark border border-cyber-blue/30 rounded-2xl p-1 max-w-sm w-full relative overflow-hidden"
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setSelectedBadge(null)}
+                                className="absolute top-4 right-4 text-cyber-gray hover:text-white z-20"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+
+                            {/* Holographic Background */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-cyber-blue/5 to-transparent pointer-events-none" />
+
+                            <div className="flex flex-col items-center text-center p-6 space-y-6 relative z-10">
+                                {/* 3D Floating Badge */}
+                                <div className="w-32 h-32 relative animate-float">
+                                    <div className="absolute inset-0 bg-cyber-blue/20 blur-2xl rounded-full animate-pulse" />
+                                    <div className="text-6xl relative z-10 drop-shadow-[0_0_20px_rgba(69,162,158,0.8)]">
+                                        {selectedBadge.icon_url}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <h3 className="text-2xl font-bold font-orbitron text-white text-glow">
+                                        {selectedBadge.name}
+                                    </h3>
+                                    <div className={cn(
+                                        "inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border",
+                                        selectedBadge.rarity === 'legendary' ? "border-amber-500 text-amber-500 bg-amber-500/10" :
+                                            selectedBadge.rarity === 'rare' ? "border-cyber-purple text-cyber-purple bg-cyber-purple/10" :
+                                                "border-cyber-blue text-cyber-blue bg-cyber-blue/10"
+                                    )}>
+                                        {selectedBadge.rarity} Artifact
+                                    </div>
+                                </div>
+
+                                <p className="text-zinc-400 italic">
+                                    "{selectedBadge.description}"
+                                </p>
+
+                                <div className="grid grid-cols-2 gap-4 w-full pt-4 border-t border-cyber-gray/20">
+                                    <div className="text-center">
+                                        <div className="text-xs text-cyber-gray font-mono uppercase">XP BONUS</div>
+                                        <div className="text-xl font-bold text-cyber-green">+{selectedBadge.xp_bonus}</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-xs text-cyber-gray font-mono uppercase">EARNED ON</div>
+                                        <div className="text-sm font-bold text-white">
+                                            {selectedBadge.earned_at ? new Date(selectedBadge.earned_at).toLocaleDateString() : 'LOCKED'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

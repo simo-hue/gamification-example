@@ -98,7 +98,7 @@ export function SystemFailureModal({ onRefill, onPremium }: SystemFailureModalPr
                                 <p className="text-xs text-zinc-400">Instantly refill 5 Lives</p>
                             </div>
                         </div>
-                        <div className="px-4 py-2 border border-cyber-blue text-cyber-blue font-bold rounded-lg text-sm whitespace-nowrap group-hover:bg-cyber-blue group-hover:text-black transition-all">
+                        <div className="px-4 py-2 border border-[#66FCF1] text-[#66FCF1] bg-transparent hover:bg-[#66FCF1] hover:text-black hover:shadow-[0_0_15px_rgba(102,252,241,0.5)] font-bold rounded-lg transition-all duration-300 whitespace-nowrap">
                             REFILL €0.99
                         </div>
                     </motion.button>
