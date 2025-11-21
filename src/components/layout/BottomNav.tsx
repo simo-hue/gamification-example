@@ -32,7 +32,7 @@ export function BottomNav() {
             icon: User,
             label: 'Profile',
             href: '/profile',
-            activeColor: 'text-cyber-green'
+            activeColor: 'text-yellow-500'
         },
     ];
 
