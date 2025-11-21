@@ -78,8 +78,22 @@ export default function Dashboard() {
         });
 
         // 2. Fog of War Filter
-        // Show: All levels <= maxUnlockedDay + 20 (Show significant chunk of future levels)
-        const visibleLevels = processedLevels.filter(l => l.day_number <= maxUnlockedDay + 20);
+        // Logic: Show ALL levels in the current module + ALL levels in the next module (Spoiler)
+
+        // Get unique modules in order
+        const uniqueModules = Array.from(new Set(processedLevels.map(l => l.module_title)));
+
+        // Find the module of the highest unlocked level (maxUnlockedDay)
+        // Note: We need to find the level object that corresponds to maxUnlockedDay to get its module
+        const currentLevelObj = processedLevels.find(l => l.day_number === maxUnlockedDay) || processedLevels[0];
+        const currentModuleIndex = uniqueModules.indexOf(currentLevelObj.module_title);
+
+        // Determine visible modules (Current + Next)
+        // If currentModuleIndex is -1 (shouldn't happen), default to showing first 2 modules
+        const targetIndex = currentModuleIndex === -1 ? 0 : currentModuleIndex;
+        const visibleModules = uniqueModules.slice(0, targetIndex + 2); // +2 because slice end is exclusive (so index + 1 is included)
+
+        const visibleLevels = processedLevels.filter(l => visibleModules.includes(l.module_title));
 
         setLevels(visibleLevels);
       } catch (err) {

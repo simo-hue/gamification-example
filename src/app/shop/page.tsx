@@ -1,6 +1,6 @@
 'use client';
 
-import { Heart, Zap, Shield, Lock, Star } from 'lucide-react';
+import { Heart, Zap, Shield, Crown, Battery, Snowflake, Check, AlertTriangle } from 'lucide-react';
 import { useUserStore } from '@/store/useUserStore';
 import { cn } from '@/lib/utils';
 
@@ -9,114 +9,151 @@ export default function ShopPage() {
 
     const handleRefill = () => {
         if (lives < maxLives) {
-            // In a real app, this would check currency or show an ad
             refillLives();
-            alert("Lives refilled!");
+            // In a real app, show toast
         }
     };
 
     const handlePremium = () => {
-        // Mock purchase
         setInfiniteLives(true);
-        alert("Premium activated! Infinite lives enabled.");
+        // In a real app, show toast
     };
 
     return (
-        <div className="space-y-8 pb-8">
-            <div className="text-center space-y-2">
-                <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
-                    <Zap className="text-yellow-500 fill-current" />
-                    Shop
+        <div className="space-y-8 pb-32">
+            {/* Header */}
+            <div className="text-center space-y-2 pt-4">
+                <div className="inline-flex items-center justify-center p-3 bg-cyber-blue/10 rounded-full mb-2 border border-cyber-blue/30 shadow-[0_0_15px_rgba(69,162,158,0.2)]">
+                    <Zap className="w-6 h-6 text-cyber-blue fill-current" />
+                </div>
+                <h1 className="text-3xl font-bold font-orbitron tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue to-cyber-purple text-glow">
+                    CYBER SUPPLY DEPOT
                 </h1>
-                <p className="text-zinc-500 dark:text-zinc-400">Boost your learning with power-ups.</p>
+                <p className="text-zinc-400 font-mono text-sm">
+                    Equip yourself for the digital frontier.
+                </p>
             </div>
 
-            {/* Hearts Section */}
-            <section className="space-y-4">
-                <h2 className="text-lg font-bold px-2">Refill Hearts</h2>
-                <div className="bg-white dark:bg-zinc-900 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-between shadow-sm">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center text-red-500">
-                            <Heart className="w-6 h-6 fill-current" />
+            {/* Section A: Elite Status (Hero Card) */}
+            <section className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-amber-600 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200 animate-pulse-slow"></div>
+                <div className="relative p-6 rounded-3xl border border-yellow-500/50 bg-gradient-to-r from-purple-900/80 to-blue-900/80 backdrop-blur-xl shadow-[0_0_30px_rgba(234,179,8,0.1)] overflow-hidden">
+
+                    {/* Background Effects */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+
+                    <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
+                        {/* Icon */}
+                        <div className="flex-shrink-0">
+                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                                <Crown className="w-10 h-10 text-white fill-white/20" />
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="font-bold">Full Refill</h3>
-                            <p className="text-sm text-zinc-500">Get back to 5 hearts</p>
+
+                        {/* Content */}
+                        <div className="flex-1 text-center md:text-left space-y-2">
+                            <h2 className="text-2xl font-bold font-orbitron text-white tracking-wide flex items-center justify-center md:justify-start gap-2">
+                                DEEPSAFE ELITE
+                                <span className="px-2 py-0.5 rounded text-[10px] bg-yellow-500 text-black font-bold">PLUS</span>
+                            </h2>
+                            <div className="flex flex-wrap justify-center md:justify-start gap-3 text-sm text-blue-100">
+                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> Infinite Lives</span>
+                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> No Ads</span>
+                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> Double XP</span>
+                            </div>
+                        </div>
+
+                        {/* CTA */}
+                        <div className="flex-shrink-0 w-full md:w-auto">
+                            <button
+                                onClick={handlePremium}
+                                disabled={hasInfiniteLives}
+                                className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-black font-bold rounded-xl shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-orbitron tracking-wide"
+                            >
+                                {hasInfiniteLives ? 'PLAN ACTIVE' : 'UPGRADE - €4.99/mo'}
+                            </button>
                         </div>
                     </div>
-                    <button
-                        onClick={handleRefill}
-                        disabled={lives === maxLives || hasInfiniteLives}
-                        className="px-4 py-2 bg-green-500 text-white font-bold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-transform"
-                    >
-                        {lives === maxLives ? 'Full' : 'Free'}
-                    </button>
                 </div>
             </section>
 
-            {/* Premium Section */}
+            {/* Section B: Vital Resources (Lives Refill) */}
             <section className="space-y-4">
-                <h2 className="text-lg font-bold px-2">Premium</h2>
-                <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-6 rounded-3xl shadow-lg">
-                    <div className="relative z-10 space-y-4">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-2xl font-bold">Deepsafe Plus</h3>
-                                <p className="text-blue-100">Unlock your full potential</p>
+                <div className="flex items-center gap-2 px-2">
+                    <Heart className="w-5 h-5 text-cyber-red" />
+                    <h2 className="text-lg font-bold font-orbitron tracking-wide text-white">VITAL RESOURCES</h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Card 1: Single Refill */}
+                    <div className="group relative p-5 rounded-2xl border border-white/10 bg-cyber-gray/50 backdrop-blur-xl hover:bg-cyber-gray/70 transition-all">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="p-3 rounded-xl bg-cyber-red/10 border border-cyber-red/20 group-hover:border-cyber-red/50 transition-colors">
+                                <Battery className="w-6 h-6 text-cyber-red" />
                             </div>
-                            <Shield className="w-10 h-10 text-blue-200" />
+                            <span className="px-2 py-1 rounded-lg bg-white/5 text-xs font-mono text-zinc-400 border border-white/5">
+                                {lives >= maxLives ? 'FULL' : '1 LEFT'}
+                            </span>
                         </div>
-
-                        <ul className="space-y-2 text-sm font-medium text-blue-50">
-                            <li className="flex items-center gap-2">
-                                <Heart className="w-4 h-4 fill-current" /> Infinite Lives
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <Zap className="w-4 h-4 fill-current" /> No Ads
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <Star className="w-4 h-4 fill-current" /> Exclusive Badges
-                            </li>
-                        </ul>
-
+                        <div className="space-y-1 mb-4">
+                            <h3 className="font-bold text-white">Emergency Refill</h3>
+                            <p className="text-xs text-zinc-400">+1 Heart to keep you going.</p>
+                        </div>
                         <button
-                            onClick={handlePremium}
-                            disabled={hasInfiniteLives}
-                            className="w-full py-3 bg-white text-blue-600 font-bold rounded-xl shadow-md active:scale-95 transition-transform disabled:opacity-80"
+                            onClick={handleRefill}
+                            disabled={lives >= maxLives || hasInfiniteLives}
+                            className="w-full py-2 rounded-lg border border-cyber-red/30 text-cyber-red hover:bg-cyber-red hover:text-white transition-all font-mono text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {hasInfiniteLives ? 'Active' : '$4.99 / Month'}
+                            WATCH AD (FREE)
                         </button>
                     </div>
 
-                    {/* Decorative circles */}
-                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
-                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full blur-xl" />
+                    {/* Card 2: Full Restore */}
+                    <div className="group relative p-5 rounded-2xl border border-cyber-green/30 bg-cyber-green/5 backdrop-blur-xl hover:bg-cyber-green/10 transition-all shadow-[0_0_15px_rgba(102,252,241,0.05)]">
+                        <div className="absolute top-0 right-0 px-2 py-1 bg-cyber-green text-black text-[10px] font-bold rounded-bl-xl rounded-tr-xl">
+                            BEST VALUE
+                        </div>
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="p-3 rounded-xl bg-cyber-green/20 border border-cyber-green/30 group-hover:border-cyber-green/60 transition-colors">
+                                <Zap className="w-6 h-6 text-cyber-green fill-current" />
+                            </div>
+                        </div>
+                        <div className="space-y-1 mb-4">
+                            <h3 className="font-bold text-white">System Reboot</h3>
+                            <p className="text-xs text-cyber-green/80">Restore full 5 Hearts instantly.</p>
+                        </div>
+                        <button
+                            onClick={handleRefill}
+                            disabled={lives >= maxLives || hasInfiniteLives}
+                            className="w-full py-2 rounded-lg bg-cyber-green text-black hover:bg-cyber-green/90 transition-all font-mono text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_10px_rgba(102,252,241,0.3)]"
+                        >
+                            €0.99
+                        </button>
+                    </div>
                 </div>
             </section>
 
-            {/* Badges Section */}
+            {/* Section C: Tactical Upgrades (Power-ups) */}
             <section className="space-y-4">
-                <h2 className="text-lg font-bold px-2">Your Badges</h2>
-                <div className="grid grid-cols-3 gap-4">
-                    {[
-                        { name: '7 Day Streak', icon: '🔥', unlocked: true },
-                        { name: 'Quiz Master', icon: '🎓', unlocked: false },
-                        { name: 'Early Bird', icon: '🌅', unlocked: true },
-                        { name: 'Socialite', icon: '🤝', unlocked: false },
-                        { name: 'Defender', icon: '🛡️', unlocked: false },
-                        { name: 'Scholar', icon: '📚', unlocked: true },
-                    ].map((badge, i) => (
-                        <div key={i} className={cn(
-                            "flex flex-col items-center justify-center p-4 rounded-xl border-2 aspect-square text-center gap-2",
-                            badge.unlocked
-                                ? "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
-                                : "border-zinc-100 bg-zinc-50 dark:border-zinc-900 dark:bg-zinc-950 opacity-50 grayscale"
-                        )}>
-                            <span className="text-3xl">{badge.icon}</span>
-                            <span className="text-[10px] font-bold leading-tight">{badge.name}</span>
-                            {!badge.unlocked && <Lock className="w-3 h-3 text-zinc-400" />}
+                <div className="flex items-center gap-2 px-2">
+                    <Shield className="w-5 h-5 text-cyber-blue" />
+                    <h2 className="text-lg font-bold font-orbitron tracking-wide text-white">TACTICAL UPGRADES</h2>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                    {/* Item 1: Streak Freeze */}
+                    <div className="flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-cyber-gray/50 backdrop-blur-xl hover:border-cyber-blue/30 transition-all">
+                        <div className="flex-shrink-0 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
+                            <Snowflake className="w-6 h-6 text-cyan-400" />
                         </div>
-                    ))}
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-white">Streak Freeze</h3>
+                            <p className="text-xs text-zinc-400 line-clamp-1">Miss a day without losing your streak.</p>
+                        </div>
+                        <button className="flex-shrink-0 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono text-sm font-bold transition-all">
+                            €1.99
+                        </button>
+                    </div>
                 </div>
             </section>
         </div>
