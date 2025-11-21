@@ -43,7 +43,7 @@ export default function ShopPage() {
                 type: 'alert',
                 title: 'ACCESS DENIED',
                 message: 'Identity verification required to purchase upgrades.',
-                actionLabel: 'INITIALIZE LOGIN',
+                actionLabel: 'LOGIN',
                 onAction: () => router.push('/login')
             });
             return;
@@ -83,7 +83,13 @@ export default function ShopPage() {
 
     const handleWatchAd = () => {
         if (!userId) {
-            alert("Please log in to watch ads.");
+            openModal({
+                type: 'alert',
+                title: 'ACCESS DENIED',
+                message: 'Identity verification required to access supply drops.',
+                actionLabel: 'LOGIN',
+                onAction: () => router.push('/login')
+            });
             return;
         }
         setAdModalOpen(true);

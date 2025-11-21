@@ -29,16 +29,16 @@ export const CyberModal = () => {
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="relative w-full max-w-md bg-cyber-dark border border-neon-blue/30 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden"
+                        className="relative w-full max-w-md bg-cyber-dark border border-[#66FCF1]/30 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden"
                     >
                         {/* Decorative Header Line */}
-                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-neon-blue to-transparent opacity-50" />
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#66FCF1] to-transparent opacity-50" />
 
                         <div className="p-6">
                             {/* Header */}
                             <div className="flex items-center justify-between mb-6">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2 rounded-lg bg-neon-blue/10 border border-neon-blue/30 text-neon-blue animate-pulse">
+                                    <div className="p-2 rounded-lg bg-[#66FCF1]/10 border border-[#66FCF1]/30 text-[#66FCF1] animate-pulse">
                                         <ShieldAlert className="w-6 h-6" />
                                     </div>
                                     <h2 className="text-xl font-bold font-orbitron text-white tracking-wide">
@@ -55,7 +55,7 @@ export const CyberModal = () => {
 
                             {/* Body */}
                             <div className="mb-8">
-                                <p className="text-zinc-300 text-lg leading-relaxed border-l-2 border-neon-blue/20 pl-4">
+                                <p className="text-zinc-300 text-lg leading-relaxed border-l-2 border-[#66FCF1]/20 pl-4">
                                     {modal.message}
                                 </p>
                             </div>
@@ -68,7 +68,7 @@ export const CyberModal = () => {
                                             modal.onAction?.();
                                             closeModal();
                                         }}
-                                        className="flex-1 py-3 rounded-lg bg-neon-blue text-black font-bold font-mono hover:bg-neon-blue/90 transition-all shadow-[0_0_15px_rgba(102,252,241,0.3)] flex items-center justify-center gap-2"
+                                        className="flex-1 py-3 rounded-lg bg-[#66FCF1] text-black font-bold font-mono hover:bg-[#66FCF1]/90 transition-all shadow-[0_0_15px_rgba(102,252,241,0.3)] flex items-center justify-center gap-2"
                                     >
                                         <Lock className="w-4 h-4" />
                                         {modal.actionLabel}
@@ -84,8 +84,8 @@ export const CyberModal = () => {
                         </div>
 
                         {/* Decorative Corner Accents */}
-                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-neon-blue/30 rounded-bl-lg" />
-                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-neon-blue/30 rounded-br-lg" />
+                        <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#66FCF1]/30 rounded-bl-lg" />
+                        <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[#66FCF1]/30 rounded-br-lg" />
                     </motion.div>
                 </div>
             )}
