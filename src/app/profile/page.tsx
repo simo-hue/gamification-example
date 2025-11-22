@@ -255,7 +255,7 @@ export default function ProfilePage() {
 
                     <div className="p-6 flex flex-col items-center relative z-10">
                         {/* Avatar Scanner */}
-                        <div className="relative mb-10 group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+                        <div className="relative mb-20 group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                             {/* Rotating Rings */}
                             <div className="absolute -inset-4 border border-cyber-blue/30 rounded-full border-dashed animate-spin-slow pointer-events-none" />
                             <div className="absolute -inset-2 border border-cyber-purple/30 rounded-full border-dotted animate-spin-reverse-slower pointer-events-none" />
@@ -277,7 +277,7 @@ export default function ProfilePage() {
                             </div>
 
                             {/* Level Badge */}
-                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-cyber-dark border border-cyber-blue px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2 z-20">
+                            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 bg-cyber-dark border border-cyber-blue px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2 z-20">
                                 <span className="text-[10px] text-cyber-gray font-mono uppercase">LIV</span>
                                 <span className="text-lg font-bold font-orbitron text-white leading-none">{currentLevel}</span>
                             </div>
@@ -321,7 +321,7 @@ export default function ProfilePage() {
                                     <div className="flex gap-3 pt-2">
                                         <button
                                             onClick={handleSaveProfile}
-                                            className="flex-1 bg-cyber-green text-black font-bold py-3 rounded-lg hover:bg-white transition-all flex items-center justify-center gap-2 font-orbitron tracking-wide"
+                                            className="flex-1 bg-cyber-green text-cyber-dark font-bold py-3 rounded-lg hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 font-orbitron tracking-wide shadow-[0_0_15px_rgba(102,252,241,0.3)] hover:shadow-[0_0_20px_rgba(102,252,241,0.6)]"
                                         >
                                             <Save className="w-4 h-4" /> SALVA DATI
                                         </button>
