@@ -200,8 +200,11 @@ export default function QuizPage() {
                             p_earned_xp: calculatedXp // Pass proportional XP
                         });
 
-                        if (error || (data && !data.success)) {
-                            console.error('❌ Error completing level (RPC):', error || data?.error);
+                        // Type assertion for RPC response
+                        const rpcResult = data as { success?: boolean; error?: string } | null;
+
+                        if (error || (rpcResult && !rpcResult.success)) {
+                            console.error('❌ Error completing level (RPC):', error || rpcResult?.error);
                             // Fallback: Insert directly into user_progress (Partial fix if RPC fails)
                             await supabase.from('user_progress').upsert({
                                 user_id: user.id,
@@ -211,15 +214,9 @@ export default function QuizPage() {
                                 completed_at: new Date().toISOString()
                             }, { onConflict: 'user_id, quiz_id' });
 
-                            // Also try to update XP manually if RPC failed
-                            if (calculatedXp > 0) {
-                                const { error: xpError } = await supabase.rpc('increment_xp', { x: calculatedXp });
-                                if (xpError) {
-                                    // If increment_xp doesn't exist, try direct update (less safe but better than nothing)
-                                    console.warn('Could not increment XP via RPC, trying direct update');
-                                    // We can't easily do atomic increment without RPC, so we skip or rely on refresh
-                                }
-                            }
+                            // Note: XP should be handled by complete_level RPC
+                            // If that fails, we rely on the profile refresh to show accurate XP
+                            console.warn('complete_level RPC failed, XP may not be updated correctly');
                         } else {
                             console.log('✅ Level completed successfully:', data);
                         }
