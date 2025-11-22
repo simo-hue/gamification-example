@@ -55,7 +55,7 @@ export const CyberToast = () => {
                         </div>
                         <div className="flex-1">
                             <p className={cn("font-mono text-sm font-bold", style.text)}>
-                                {toast.type === 'error' ? 'SYSTEM ERROR' : toast.type === 'success' ? 'SUCCESS' : 'INFO'}
+                                {toast.type === 'error' ? 'ERRORE DI SISTEMA' : toast.type === 'success' ? 'SUCCESSO' : 'INFO'}
                             </p>
                             <p className="text-sm text-white/90 font-medium leading-tight">
                                 {toast.message}

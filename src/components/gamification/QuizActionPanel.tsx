@@ -54,13 +54,13 @@ export function QuizActionPanel({
                                 "text-xl font-black font-orbitron tracking-wider",
                                 isCorrect ? "text-cyber-green drop-shadow-[0_0_10px_rgba(102,252,241,0.5)]" : "text-cyber-red drop-shadow-[0_0_10px_rgba(255,0,85,0.5)]"
                             )}>
-                                {isCorrect ? "ACCESS GRANTED" : "THREAT DETECTED"}
+                                {isCorrect ? "ACCESSO CONSENTITO" : "MINACCIA RILEVATA"}
                             </h3>
                             <p className={cn(
                                 "text-xs font-mono tracking-widest uppercase opacity-80",
                                 isCorrect ? "text-cyber-green" : "text-cyber-red"
                             )}>
-                                {isCorrect ? "Protocol Verified" : "Security Breach"}
+                                {isCorrect ? "Protocollo Verificato" : "Violazione Sicurezza"}
                             </p>
                         </div>
                     </div>
@@ -70,7 +70,7 @@ export function QuizActionPanel({
                         {!isCorrect && (
                             <div className="flex items-start gap-2 text-cyber-red font-bold text-sm uppercase tracking-wide pb-2 border-b border-white/5 mb-2">
                                 <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-                                <span>Correct: {correctAnswerText}</span>
+                                <span>Corretto: {correctAnswerText}</span>
                             </div>
                         )}
                         <p className="text-zinc-300 text-sm leading-relaxed font-medium">
@@ -89,7 +89,7 @@ export function QuizActionPanel({
                         )}
                     >
                         <span className="relative z-10 flex items-center gap-2">
-                            {isLastQuestion ? "COMPLETE MISSION" : "NEXT QUESTION"}
+                            {isLastQuestion ? "COMPLETA MISSIONE" : "PROSSIMA DOMANDA"}
                             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </span>
 

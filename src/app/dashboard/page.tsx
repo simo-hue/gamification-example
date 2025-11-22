@@ -2,26 +2,32 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle, Lock, PlayCircle } from 'lucide-react';
+import { CheckCircle, Lock, PlayCircle, Flame, Heart, Zap } from 'lucide-react';
 import { SagaMap, SagaLevel } from '@/components/gamification/SagaMap';
 import { cn } from '@/lib/utils';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/types/supabase';
+import { motion } from 'framer-motion';
+import { useUserStore } from '@/store/useUserStore';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder';
 const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
-import { MOCK_QUIZZES } from '@/lib/mockData';
+
 
 export default function Dashboard() {
   const [levels, setLevels] = useState<SagaLevel[]>([]);
   const [loading, setLoading] = useState(true);
+  const { lives, streak } = useUserStore();
+  const [activeChallenge, setActiveChallenge] = useState<{ sender_id: string } | null>(null); // Placeholder for now
 
   useEffect(() => {
-    async function fetchSagaState() {
+    const fetchSagaState = async () => {
       try {
-        // 1. Fetch User Progress directly
+        setLoading(true);
+
+        // 1. Fetch User Progress
         const { data: { user } } = await supabase.auth.getUser();
         let completedIds = new Set<string>();
 
@@ -37,25 +43,36 @@ export default function Dashboard() {
           }
         }
 
-        // 2. Use MOCK_QUIZZES as the source of truth for Level Structure
-        const rawLevels: SagaLevel[] = MOCK_QUIZZES.map((q, index) => ({
-          id: q.id,
-          day_number: index + 1,
-          title: q.title,
-          is_boss_level: q.is_special_mission || false, // Map special mission to boss level visual
-          xp_reward: q.xpReward,
-          module_title: q.id === '1' || q.id === '2' || q.id === '3' ? 'Week 1: Foundations' :
-            q.id === '4' ? 'Week 2: Social Engineering' : 'Week 3: Deepfakes',
+        // 2. Fetch Levels from DB
+        const { data: levelsData, error: levelsError } = await supabase
+          .from('levels')
+          .select(`
+            *,
+            modules (
+              title,
+              order_index
+            )
+          `)
+          .order('day_number', { ascending: true });
+
+        if (levelsError) throw levelsError;
+
+        // 3. Map DB Data to SagaLevel
+        const rawLevels: SagaLevel[] = (levelsData || []).map((l: any) => ({
+          id: l.id,
+          day_number: l.day_number,
+          title: l.title,
+          is_boss_level: l.is_boss_level,
+          xp_reward: l.xp_reward,
+          module_title: l.modules?.title || 'Unknown Module',
           theme_color: null,
-          order_index: index,
+          order_index: l.modules?.order_index || 0,
           status: 'locked'
         }));
 
-        // 3. Determine Status & Max Day
+        // 4. Determine Status & Max Day
         let maxUnlockedDay = 0;
         let isNextUnlocked = true; // The first non-completed level is the active one
-
-        console.log('🔍 Debug: Completed IDs found:', Array.from(completedIds));
 
         const processedLevels: SagaLevel[] = rawLevels.map((l) => {
           const isCompleted = completedIds.has(l.id);
@@ -73,9 +90,7 @@ export default function Dashboard() {
           return { ...l, status };
         });
 
-        console.log('🔍 Debug: Processed Levels:', processedLevels.map(l => `${l.id}: ${l.status}`));
-
-        // 4. Fog of War Filter
+        // 5. Fog of War Filter
         const uniqueModules = Array.from(new Set(processedLevels.map(l => l.module_title)));
         const currentLevelObj = processedLevels.find(l => l.day_number === maxUnlockedDay) || processedLevels[0];
         const currentModuleIndex = uniqueModules.indexOf(currentLevelObj.module_title);
@@ -89,7 +104,7 @@ export default function Dashboard() {
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchSagaState();
 
@@ -107,39 +122,62 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold">Your Journey</h1>
-        <p className="text-zinc-500 dark:text-zinc-400">Master AI Safety one step at a time.</p>
-      </div>
+    <div className="min-h-screen pb-24 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyber-blue/10 via-cyber-dark to-cyber-dark z-0" />
+      <div className="fixed inset-0 bg-[url('/grid-pattern.svg')] opacity-10 z-0" />
 
-      {/* Pending Challenges Notification */}
-      <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-4 rounded-xl flex items-center justify-between animate-in slide-in-from-top-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-800 rounded-full flex items-center justify-center text-xl">
-            ⚔️
-          </div>
+      <div className="relative z-10 space-y-6 p-4 max-w-md mx-auto">
+        {/* Header */}
+        <header className="flex justify-between items-center">
           <div>
-            <h3 className="font-bold text-sm text-yellow-900 dark:text-yellow-100">New Challenge!</h3>
-            <p className="text-xs text-yellow-700 dark:text-yellow-300">DeepLearner challenged you.</p>
+            <h1 className="text-2xl font-bold font-orbitron text-white text-glow">Il Tuo Viaggio</h1>
+            <p className="text-cyber-gray text-sm">Domina la Sicurezza IA un passo alla volta.</p>
           </div>
-        </div>
-        <Link
-          href="/quiz/1"
-          className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-bold rounded-lg transition-colors"
-        >
-          Accept
-        </Link>
-      </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-cyber-dark/50 px-3 py-1.5 rounded-full border border-cyber-blue/30">
+              <Flame className="w-4 h-4 text-cyber-orange animate-pulse" />
+              <span className="font-mono font-bold text-cyber-orange">{streak}</span>
+            </div>
+            <div className="flex items-center gap-1 bg-cyber-dark/50 px-3 py-1.5 rounded-full border border-cyber-blue/30">
+              <Heart className="w-4 h-4 text-cyber-red animate-pulse" />
+              <span className="font-mono font-bold text-cyber-red">{lives}</span>
+            </div>
+          </div>
+        </header>
 
-      {/* Learning Path */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold">Saga Map</h2>
-          <span className="text-sm text-zinc-500">Week 1-4</span>
-        </div>
+        {/* Challenge Notification */}
+        {activeChallenge && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-cyber-blue/10 border border-cyber-blue/30 p-4 rounded-xl flex items-center justify-between relative overflow-hidden group"
+          >
+            <div className="absolute inset-0 bg-cyber-blue/5 animate-scan pointer-events-none" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-cyber-blue/20 flex items-center justify-center">
+                <Zap className="w-5 h-5 text-cyber-blue" />
+              </div>
+              <div>
+                <h3 className="font-bold text-white text-sm">Nuova Sfida!</h3>
+                <p className="text-xs text-cyber-gray">Da: {activeChallenge.sender_id.slice(0, 8)}...</p>
+              </div>
+            </div>
+            <button className="px-4 py-2 bg-cyber-blue text-cyber-dark font-bold text-xs rounded-lg hover:bg-cyber-green transition-colors shadow-[0_0_10px_rgba(69,162,158,0.4)]">
+              ACCETTA
+            </button>
+          </motion.div>
+        )}
 
-        <SagaMap levels={levels} />
+        {/* Saga Map */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-end px-2">
+            <h2 className="text-xl font-bold font-orbitron text-cyber-blue tracking-wide">Mappa della Saga</h2>
+            <span className="text-xs font-mono text-cyber-gray/70">SETTIMANE 1-4</span>
+          </div>
+
+          <SagaMap levels={levels} />
+        </div>
       </div>
     </div>
   );

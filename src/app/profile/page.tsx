@@ -51,18 +51,18 @@ import { Badge } from '@/components/gamification/BadgeCard';
 
 // Mock Data (Moved from AchievementsPage)
 const MOCK_MISSIONS: Mission[] = [
-    { id: '1', title: 'Daily Login', target_count: 1, current_count: 1, reward_xp: 50, is_completed: true, is_claimed: false, frequency: 'daily' },
-    { id: '2', title: 'Quiz Master', target_count: 3, current_count: 2, reward_xp: 150, is_completed: false, is_claimed: false, frequency: 'daily' },
-    { id: '3', title: 'Perfect Streak', target_count: 1, current_count: 1, reward_xp: 200, is_completed: true, is_claimed: true, frequency: 'weekly' },
+    { id: '1', title: 'Accesso Giornaliero', target_count: 1, current_count: 1, reward_xp: 50, is_completed: true, is_claimed: false, frequency: 'daily' },
+    { id: '2', title: 'Maestro dei Quiz', target_count: 3, current_count: 2, reward_xp: 150, is_completed: false, is_claimed: false, frequency: 'daily' },
+    { id: '3', title: 'Serie Perfetta', target_count: 1, current_count: 1, reward_xp: 200, is_completed: true, is_claimed: true, frequency: 'weekly' },
 ];
 
 const MOCK_BADGES: Badge[] = [
-    { id: '1', name: 'First Steps', description: 'Completed your first quiz.', icon_url: '👣', category: 'General', xp_bonus: 50, is_unlocked: true, earned_at: '2024-05-20', rarity: 'common' },
-    { id: '2', name: 'Shield Bearer', description: 'Secured account with 2FA.', icon_url: '🛡️', category: 'Defense', xp_bonus: 100, is_unlocked: true, earned_at: '2024-05-21', rarity: 'rare' },
-    { id: '3', name: 'Cyber Legend', description: 'Completed the 30-Day Buffer.', icon_url: '👑', category: 'Mastery', xp_bonus: 500, is_unlocked: true, earned_at: '2024-05-24', rarity: 'legendary' },
-    { id: '4', name: 'Phishing Terminator', description: 'Reported 10 phishing attempts.', icon_url: '🎣', category: 'Defense', xp_bonus: 200, is_unlocked: false, rarity: 'rare' },
-    { id: '5', name: 'Speed Demon', description: 'Finished a quiz in under 30s.', icon_url: '⚡', category: 'Speed', xp_bonus: 100, is_unlocked: false, rarity: 'common' },
-    { id: '6', name: 'Social Engineer', description: 'Invited 5 friends.', icon_url: '🤝', category: 'Social', xp_bonus: 150, is_unlocked: false, rarity: 'common' },
+    { id: '1', name: 'Primi Passi', description: 'Hai completato il tuo primo quiz.', icon_url: '👣', category: 'General', xp_bonus: 50, is_unlocked: true, earned_at: '2024-05-20', rarity: 'common' },
+    { id: '2', name: 'Portatore dello Scudo', description: 'Account protetto con 2FA.', icon_url: '🛡️', category: 'Defense', xp_bonus: 100, is_unlocked: true, earned_at: '2024-05-21', rarity: 'rare' },
+    { id: '3', name: 'Leggenda Cyber', description: 'Completato il Buffer di 30 Giorni.', icon_url: '👑', category: 'Mastery', xp_bonus: 500, is_unlocked: true, earned_at: '2024-05-24', rarity: 'legendary' },
+    { id: '4', name: 'Terminator di Phishing', description: 'Segnalati 10 tentativi di phishing.', icon_url: '🎣', category: 'Defense', xp_bonus: 200, is_unlocked: false, rarity: 'rare' },
+    { id: '5', name: 'Demone della Velocità', description: 'Quiz finito in meno di 30s.', icon_url: '⚡', category: 'Speed', xp_bonus: 100, is_unlocked: false, rarity: 'common' },
+    { id: '6', name: 'Ingegnere Sociale', description: 'Invitati 5 amici.', icon_url: '🤝', category: 'Social', xp_bonus: 150, is_unlocked: false, rarity: 'common' },
 ];
 
 export default function ProfilePage() {
@@ -127,7 +127,7 @@ export default function ProfilePage() {
 
             setProfile(data as any);
             setEditName(data.username || '');
-            setEditBio((data as any).bio || 'Cyber Security Recruit');
+            setEditBio((data as any).bio || 'Recluta Cyber Security');
         } catch (error) {
             console.error('Error fetching profile:', error);
         } finally {
@@ -139,7 +139,7 @@ export default function ProfilePage() {
         // Mock data
         const mockData: LeaderboardEntry[] = Array.from({ length: 10 }).map((_, i) => ({
             id: `user-${i}`,
-            username: i === 0 ? 'CyberMaster' : `Agent_${100 + i}`,
+            username: i === 0 ? 'CyberMaster' : `Agente_${100 + i}`,
             avatar_url: null,
             xp: 5000 - (i * 200),
             rank: i + 1
@@ -161,7 +161,7 @@ export default function ProfilePage() {
             setUploading(true);
 
             if (!event.target.files || event.target.files.length === 0) {
-                throw new Error('You must select an image to upload.');
+                throw new Error('Devi selezionare un\'immagine da caricare.');
             }
 
             const file = event.target.files[0];
@@ -189,7 +189,7 @@ export default function ProfilePage() {
 
         } catch (error) {
             console.error('Error uploading avatar:', error);
-            alert('Error uploading avatar!');
+            alert('Errore caricamento avatar!');
         } finally {
             setUploading(false);
         }
@@ -216,11 +216,11 @@ export default function ProfilePage() {
     };
 
     const getRankTitle = (xp: number) => {
-        if (xp < 100) return 'Recruit';
+        if (xp < 100) return 'Recluta';
         if (xp < 500) return 'Script Kiddie';
         if (xp < 1000) return 'White Hat';
-        if (xp < 2500) return 'Cyber Sentinel';
-        return 'Netrunner Legend';
+        if (xp < 2500) return 'Sentinella Cyber';
+        return 'Leggenda Netrunner';
     };
 
     const getRankColor = (xp: number) => {
@@ -231,7 +231,7 @@ export default function ProfilePage() {
         return 'bg-amber-500/20 text-amber-500 border-amber-500';
     };
 
-    if (loading) return <div className="flex items-center justify-center min-h-screen text-cyber-blue animate-pulse font-orbitron">INITIALIZING IDENTITY PROTOCOLS...</div>;
+    if (loading) return <div className="flex items-center justify-center min-h-screen text-cyber-blue animate-pulse font-orbitron">INIZIALIZZAZIONE PROTOCOLLI IDENTITÀ...</div>;
 
     const currentLevel = Math.floor((profile?.xp || 0) / 100) + 1;
     const nextLevelXp = currentLevel * 100;
@@ -278,7 +278,7 @@ export default function ProfilePage() {
 
                             {/* Level Badge */}
                             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-cyber-dark border border-cyber-blue px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2 z-20">
-                                <span className="text-[10px] text-cyber-gray font-mono uppercase">LVL</span>
+                                <span className="text-[10px] text-cyber-gray font-mono uppercase">LIV</span>
                                 <span className="text-lg font-bold font-orbitron text-white leading-none">{currentLevel}</span>
                             </div>
 
@@ -296,7 +296,7 @@ export default function ProfilePage() {
                             {isEditing ? (
                                 <div className="space-y-4 w-full max-w-xs mx-auto animate-in fade-in slide-in-from-bottom-4">
                                     <div className="space-y-1 text-left">
-                                        <label className="text-[10px] text-cyber-blue font-mono uppercase tracking-widest">Codename</label>
+                                        <label className="text-[10px] text-cyber-blue font-mono uppercase tracking-widest">Nome in Codice</label>
                                         <div className="relative">
                                             <input
                                                 type="text"
@@ -310,7 +310,7 @@ export default function ProfilePage() {
                                     </div>
 
                                     <div className="space-y-1 text-left">
-                                        <label className="text-[10px] text-cyber-blue font-mono uppercase tracking-widest">Bio_Data</label>
+                                        <label className="text-[10px] text-cyber-blue font-mono uppercase tracking-widest">Dati_Bio</label>
                                         <textarea
                                             value={editBio}
                                             onChange={(e) => setEditBio(e.target.value)}
@@ -323,7 +323,7 @@ export default function ProfilePage() {
                                             onClick={handleSaveProfile}
                                             className="flex-1 bg-cyber-green text-black font-bold py-3 rounded-lg hover:bg-white transition-all flex items-center justify-center gap-2 font-orbitron tracking-wide"
                                         >
-                                            <Save className="w-4 h-4" /> SAVE DATA
+                                            <Save className="w-4 h-4" /> SALVA DATI
                                         </button>
                                         <button
                                             onClick={() => setIsEditing(false)}
@@ -337,7 +337,7 @@ export default function ProfilePage() {
                                 <>
                                     <div className="space-y-2">
                                         <h1 className="text-3xl font-bold font-orbitron text-white tracking-widest uppercase text-glow">
-                                            {profile?.username || 'UNKNOWN_AGENT'}
+                                            {profile?.username || 'AGENTE_SCONOSCIUTO'}
                                         </h1>
                                         <div className={cn(
                                             "inline-block px-3 py-1 rounded-md text-xs font-bold uppercase tracking-widest border",
@@ -351,7 +351,7 @@ export default function ProfilePage() {
                                     <div className="w-full max-w-xs mx-auto space-y-1">
                                         <div className="flex justify-between text-[10px] font-mono text-cyber-blue/70">
                                             <span>XP {currentLevelXp}</span>
-                                            <span>NEXT {100}</span>
+                                            <span>PROSSIMO {100}</span>
                                         </div>
                                         <div className="h-1 bg-cyber-dark rounded-full overflow-hidden border border-white/5">
                                             <motion.div
@@ -371,7 +371,7 @@ export default function ProfilePage() {
                                         onClick={() => setIsEditing(true)}
                                         className="mt-4 px-6 py-2 bg-cyber-blue/10 border border-cyber-blue/50 text-cyber-blue rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-cyber-blue hover:text-cyber-dark transition-all duration-300"
                                     >
-                                        Update ID Data
+                                        Aggiorna Dati ID
                                     </button>
                                 </>
                             )}
@@ -387,7 +387,7 @@ export default function ProfilePage() {
                     <Flame className="w-6 h-6 text-orange-500 animate-pulse" />
                     <div className="text-center">
                         <div className="text-2xl font-bold font-mono text-white">{profile?.highest_streak}</div>
-                        <div className="text-[9px] text-zinc-500 uppercase tracking-widest font-bold">Days Streak</div>
+                        <div className="text-[9px] text-zinc-500 uppercase tracking-widest font-bold">Serie Giorni</div>
                     </div>
                 </div>
 
@@ -396,7 +396,7 @@ export default function ProfilePage() {
                     <Zap className="w-6 h-6 text-cyber-purple animate-pulse" />
                     <div className="text-center">
                         <div className="text-2xl font-bold font-mono text-white">{profile?.xp}</div>
-                        <div className="text-[9px] text-zinc-500 uppercase tracking-widest font-bold">Total XP</div>
+                        <div className="text-[9px] text-zinc-500 uppercase tracking-widest font-bold">XP Totali</div>
                     </div>
                 </div>
 
@@ -405,7 +405,7 @@ export default function ProfilePage() {
                     <Trophy className="w-6 h-6 text-yellow-500 animate-pulse" />
                     <div className="text-center">
                         <div className="text-2xl font-bold font-mono text-white">{userRank > 0 ? `#${userRank}` : '--'}</div>
-                        <div className="text-[9px] text-zinc-500 uppercase tracking-widest font-bold">Global Rank</div>
+                        <div className="text-[9px] text-zinc-500 uppercase tracking-widest font-bold">Rango Globale</div>
                     </div>
                 </div>
             </div>
@@ -414,7 +414,7 @@ export default function ProfilePage() {
             <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-2">
                     <Activity className="w-4 h-4 text-cyber-blue" />
-                    <h3 className="text-sm font-bold font-orbitron text-white tracking-wider">NETWORK STATUS</h3>
+                    <h3 className="text-sm font-bold font-orbitron text-white tracking-wider">STATO RETE</h3>
                 </div>
 
                 <div className="flex p-1 bg-black/40 rounded-xl border border-cyber-gray/20">
@@ -427,7 +427,7 @@ export default function ProfilePage() {
                                 : "text-zinc-600 hover:text-zinc-400"
                         )}
                     >
-                        <Globe className="w-3 h-3" /> Global
+                        <Globe className="w-3 h-3" /> Globale
                     </button>
                     <button
                         onClick={() => setLeaderboardTab('friends')}
@@ -438,7 +438,7 @@ export default function ProfilePage() {
                                 : "text-zinc-600 hover:text-zinc-400"
                         )}
                     >
-                        <Users className="w-3 h-3" /> Squad
+                        <Users className="w-3 h-3" /> Squadra
                     </button>
                 </div>
 
@@ -499,7 +499,7 @@ export default function ProfilePage() {
             {/* Divider: AGENT RECORD */}
             <div className="relative flex items-center gap-4 py-4">
                 <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-cyber-gray to-transparent" />
-                <div className="text-xs font-mono text-cyber-gray uppercase tracking-[0.2em]">// AGENT RECORD</div>
+                <div className="text-xs font-mono text-cyber-gray uppercase tracking-[0.2em]">// REGISTRO AGENTE</div>
                 <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-cyber-gray to-transparent" />
             </div>
 
@@ -555,7 +555,7 @@ export default function ProfilePage() {
                                             selectedBadge.rarity === 'rare' ? "border-cyber-purple text-cyber-purple bg-cyber-purple/10" :
                                                 "border-cyber-blue text-cyber-blue bg-cyber-blue/10"
                                     )}>
-                                        {selectedBadge.rarity} Artifact
+                                        Manufatto {selectedBadge.rarity === 'legendary' ? 'Leggendario' : selectedBadge.rarity === 'rare' ? 'Raro' : 'Comune'}
                                     </div>
                                 </div>
 
@@ -565,13 +565,13 @@ export default function ProfilePage() {
 
                                 <div className="grid grid-cols-2 gap-4 w-full pt-4 border-t border-cyber-gray/20">
                                     <div className="text-center">
-                                        <div className="text-xs text-cyber-gray font-mono uppercase">XP BONUS</div>
+                                        <div className="text-xs text-cyber-gray font-mono uppercase">BONUS XP</div>
                                         <div className="text-xl font-bold text-cyber-green">+{selectedBadge.xp_bonus}</div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-xs text-cyber-gray font-mono uppercase">EARNED ON</div>
+                                        <div className="text-xs text-cyber-gray font-mono uppercase">OTTENUTO IL</div>
                                         <div className="text-sm font-bold text-white">
-                                            {selectedBadge.earned_at ? new Date(selectedBadge.earned_at).toLocaleDateString() : 'LOCKED'}
+                                            {selectedBadge.earned_at ? new Date(selectedBadge.earned_at).toLocaleDateString() : 'BLOCCATO'}
                                         </div>
                                     </div>
                                 </div>

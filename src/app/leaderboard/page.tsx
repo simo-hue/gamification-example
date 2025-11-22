@@ -31,9 +31,9 @@ export default function LeaderboardPage() {
             <div className="text-center space-y-2">
                 <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
                     <Trophy className="text-yellow-500 fill-current" />
-                    Leaderboard
+                    Classifica
                 </h1>
-                <p className="text-zinc-500 dark:text-zinc-400">See who's leading the safety revolution.</p>
+                <p className="text-zinc-500 dark:text-zinc-400">Scopri chi guida la rivoluzione della sicurezza.</p>
             </div>
 
             {/* Tabs */}
@@ -48,7 +48,7 @@ export default function LeaderboardPage() {
                     )}
                 >
                     <Globe className="w-4 h-4" />
-                    Global
+                    Globale
                 </button>
                 <button
                     onClick={() => setActiveTab('friends')}
@@ -60,7 +60,7 @@ export default function LeaderboardPage() {
                     )}
                 >
                     <Users className="w-4 h-4" />
-                    Friends
+                    Amici
                 </button>
             </div>
 

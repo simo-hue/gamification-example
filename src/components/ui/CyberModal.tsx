@@ -78,7 +78,7 @@ export const CyberModal = () => {
                                     onClick={closeModal}
                                     className="flex-1 py-3 rounded-lg border border-white/10 bg-white/5 text-white font-bold font-mono hover:bg-white/10 transition-all"
                                 >
-                                    CANCEL
+                                    ANNULLA
                                 </button>
                             </div>
                         </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Check, X, AlertTriangle } from 'lucide-react';
-import { MOCK_QUIZZES, Quiz } from '@/lib/mockData';
+import { Quiz } from '@/lib/mockData';
 import { useUserStore } from '@/store/useUserStore';
 import { calculateRewards } from '@/lib/gamification';
 import { cn } from '@/lib/utils';
@@ -32,15 +32,63 @@ export default function QuizPage() {
     const [score, setScore] = useState(0);
     const [showShopModal, setShowShopModal] = useState(false);
     const [showReward, setShowReward] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const foundQuiz = MOCK_QUIZZES.find(q => q.id === params.id);
-        if (foundQuiz) {
-            setQuiz(foundQuiz);
+        const fetchQuizData = async () => {
+            try {
+                setLoading(true);
+                // 1. Fetch Level Info
+                const { data: levelData, error: levelError } = await supabase
+                    .from('levels')
+                    .select('*')
+                    .eq('id', params.id as string)
+                    .single();
+
+                if (levelError) throw levelError;
+
+                // 2. Fetch Questions
+                const { data: questionsData, error: questionsError } = await supabase
+                    .from('questions')
+                    .select('*')
+                    .eq('level_id', params.id as string);
+
+                if (questionsError) throw questionsError;
+
+                // 3. Construct Quiz Object
+                const fetchedQuiz: Quiz = {
+                    id: levelData.id,
+                    title: levelData.title,
+                    description: 'Missione attiva', // Could fetch from modules if needed
+                    xpReward: levelData.xp_reward,
+                    completed: false,
+                    locked: false,
+                    questions: questionsData.map((q: any) => ({
+                        id: q.id,
+                        type: q.type,
+                        text: q.text,
+                        imageUrl: q.image_url,
+                        hotspots: q.hotspots,
+                        options: q.options,
+                        correctAnswer: q.correct_index,
+                        explanation: q.explanation || ''
+                    }))
+                };
+
+                setQuiz(fetchedQuiz);
+            } catch (error) {
+                console.error('Error fetching quiz:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (params.id) {
+            fetchQuizData();
         }
     }, [params.id]);
 
-    if (!quiz) return <div className="p-4 text-cyber-blue animate-pulse">Initializing System...</div>;
+    if (!quiz) return <div className="p-4 text-cyber-blue animate-pulse">Inizializzazione Sistema...</div>;
 
     // Shop Modal
     if (showShopModal) {
@@ -50,17 +98,17 @@ export default function QuizPage() {
                     <div className="w-16 h-16 bg-cyber-red/20 rounded-full flex items-center justify-center mx-auto text-2xl animate-pulse">
                         💔
                     </div>
-                    <h2 className="text-xl font-bold font-orbitron text-cyber-red text-glow-danger">System Failure</h2>
-                    <p className="text-zinc-400">Critical resource depletion. Recharge required.</p>
+                    <h2 className="text-xl font-bold font-orbitron text-cyber-red text-glow-danger">Errore di Sistema</h2>
+                    <p className="text-zinc-400">Esaurimento risorse critiche. Ricarica richiesta.</p>
                     <div className="flex flex-col gap-2">
                         <Link href="/shop" className="w-full py-3 bg-cyber-blue text-cyber-dark rounded-xl font-bold hover:bg-cyber-green transition-colors">
-                            Access Supply Depot
+                            Accedi al Deposito
                         </Link>
                         <button
                             onClick={() => router.push('/')}
                             className="w-full py-3 text-zinc-500 font-bold hover:text-white"
                         >
-                            Abort Mission
+                            Annulla Missione
                         </button>
                     </div>
                 </div>
@@ -77,13 +125,13 @@ export default function QuizPage() {
                     // Demo: Refill lives immediately
                     const { refillLives } = useUserStore.getState();
                     refillLives();
-                    alert("EMERGENCY RECHARGE SUCCESSFUL! -0.99€ (Demo)");
+                    alert("RICARICA EMERGENZA RIUSCITA! -0.99€ (Demo)");
                 }}
                 onPremium={() => {
                     // Demo: Activate premium
                     const { setInfiniteLives } = useUserStore.getState();
                     setInfiniteLives(true);
-                    alert("UNLIMITED POWER ACQUIRED! -4.99€ (Demo)");
+                    alert("POTERE ILLIMITATO ACQUISITO! -4.99€ (Demo)");
                 }}
             />
         );
@@ -133,41 +181,36 @@ export default function QuizPage() {
                     const { data: { user } } = await supabase.auth.getUser();
 
                     if (user) {
+                        // Call the robust RPC
                         const { data, error } = await supabase.rpc('complete_level', {
                             p_user_id: user.id,
                             p_level_id: params.id as string,
-                            p_score: score + (isCorrect ? 1 : 0)
+                            p_score: score + (isCorrect ? 1 : 0),
+                            p_earned_xp: quiz.xpReward // Pass earned XP
                         });
 
                         if (error) {
-                            console.warn('⚠️ Error completing level (RPC), attempting direct insert:', error);
-                            // Fallback: Insert directly into user_progress
-                            const { error: insertError } = await supabase
-                                .from('user_progress')
-                                .upsert({
-                                    user_id: user.id,
-                                    quiz_id: params.id as string,
-                                    score: score + (isCorrect ? 1 : 0),
-                                    status: 'completed',
-                                    completed_at: new Date().toISOString()
-                                }, { onConflict: 'user_id, quiz_id' });
-
-                            if (insertError) {
-                                console.error('❌ Failed to save progress manually:', insertError);
-                            } else {
-                                console.log('✅ Progress saved manually via fallback');
-                            }
+                            console.error('❌ Error completing level (RPC):', error);
+                            // Fallback: Insert directly into user_progress (Partial fix if RPC fails)
+                            await supabase.from('user_progress').upsert({
+                                user_id: user.id,
+                                quiz_id: params.id as string,
+                                score: score + (isCorrect ? 1 : 0),
+                                status: 'completed',
+                                completed_at: new Date().toISOString()
+                            }, { onConflict: 'user_id, quiz_id' });
                         } else {
                             console.log('✅ Level completed successfully:', data);
                         }
-                    } else {
-                        console.warn('⚠️ User not logged in, skipping level completion RPC');
                     }
 
-                    // Refresh router to update Saga Map state
-                    router.refresh();
+                    // Force Hard Refresh to ensure Dashboard gets fresh data
+                    window.location.href = '/dashboard';
+
                 } catch (error) {
                     console.error('❌ Unexpected error completing level:', error);
+                    // Even on error, try to go to dashboard
+                    window.location.href = '/dashboard';
                 }
             }
         } else {
@@ -185,8 +228,8 @@ export default function QuizPage() {
                     <span className="text-4xl animate-bounce">🏆</span>
                 </div>
                 <div className="space-y-2">
-                    <h2 className="text-3xl font-bold text-cyber-purple font-orbitron text-glow">Mission Accomplished</h2>
-                    <p className="text-xl font-medium text-cyber-blue">Data Secured: +{quiz.xpReward} XP</p>
+                    <h2 className="text-3xl font-bold text-cyber-purple font-orbitron text-glow">Missione Compiuta</h2>
+                    <p className="text-xl font-medium text-cyber-blue">Dati Messi in Sicurezza: +{quiz.xpReward} XP</p>
                 </div>
                 <button
                     onClick={() => {
@@ -195,7 +238,7 @@ export default function QuizPage() {
                     }}
                     className="px-8 py-3 bg-cyber-blue text-cyber-dark rounded-full font-bold text-lg shadow-[0_0_15px_rgba(69,162,158,0.5)] hover:bg-cyber-green transition-all hover:scale-105"
                 >
-                    Return to Base
+                    Ritorna alla Base
                 </button>
             </div>
         );
@@ -212,7 +255,7 @@ export default function QuizPage() {
 
                 <div className="flex-1 flex flex-col gap-2">
                     <div className="flex justify-between items-end px-1">
-                        <span className="text-[10px] font-bold tracking-widest text-cyber-gray uppercase">System Sync</span>
+                        <span className="text-[10px] font-bold tracking-widest text-cyber-gray uppercase">Sincronizzazione Sistema</span>
                         <span className="text-sm font-bold font-orbitron text-cyber-blue text-glow">
                             {currentQuestionIndex + 1} <span className="text-cyber-gray text-xs">/ {quiz.questions.length}</span>
                         </span>

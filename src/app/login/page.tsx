@@ -88,7 +88,7 @@ function LoginContent() {
                                 DEEPSAFE
                             </h1>
                             <p className="text-cyan-500/80 font-mono text-xs tracking-[0.2em] uppercase">
-                                &gt; Initialize Protocol...
+                                &gt; Inizializzazione Protocollo...
                             </p>
                         </div>
                     </div>
@@ -102,9 +102,9 @@ function LoginContent() {
                         >
                             <AlertCircle className="w-6 h-6 text-white shrink-0" strokeWidth={1.5} />
                             <div>
-                                <h3 className="text-white font-bold font-orbitron tracking-wide text-sm mb-1">ACCESS DENIED</h3>
+                                <h3 className="text-white font-bold font-orbitron tracking-wide text-sm mb-1">ACCESSO NEGATO</h3>
                                 <p className="text-zinc-400 text-xs leading-relaxed">
-                                    {errorMessage || 'Authentication failed. Please try again.'}
+                                    {errorMessage || 'Autenticazione fallita. Riprova.'}
                                 </p>
                             </div>
                         </motion.div>
@@ -132,7 +132,7 @@ function LoginContent() {
                                         </svg>
                                     </div>
                                     <span className="text-white font-bold font-orbitron tracking-wider text-sm group-hover:text-cyan-100 transition-colors">
-                                        AUTHENTICATE VIA GOOGLE
+                                        AUTENTICAZIONE GOOGLE
                                     </span>
                                 </>
                             )}
@@ -143,7 +143,7 @@ function LoginContent() {
                     <div className="mt-12 pt-6 border-t border-white/5 text-center space-y-3">
                         <div className="flex items-center justify-center gap-2 text-[10px] text-cyan-500/70 font-mono tracking-widest uppercase">
                             <CheckCircle className="w-3 h-3" />
-                            <span>Secure Connection: Established</span>
+                            <span>Connessione Sicura: Stabilita</span>
                         </div>
                         <p className="text-[10px] text-zinc-600 font-mono">
                             [ ENCRYPTION: AES-256 | PROTOCOL: HTTPS ]

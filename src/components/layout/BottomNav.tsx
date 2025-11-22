@@ -13,30 +13,10 @@ export function BottomNav() {
     if (pathname?.startsWith('/quiz')) return null;
 
     const navItems = [
-        {
-            icon: Map,
-            label: 'Home',
-            href: '/dashboard',
-            activeColor: 'text-yellow-500'
-        },
-        {
-            icon: Trophy,
-            label: 'Leaderboard',
-            href: '/leaderboard',
-            activeColor: 'text-yellow-500'
-        },
-        {
-            icon: ShoppingBag,
-            label: 'Shop',
-            href: '/shop',
-            activeColor: 'text-yellow-500'
-        },
-        {
-            icon: User,
-            label: 'Profile',
-            href: '/profile',
-            activeColor: 'text-yellow-500'
-        },
+        { id: 'home', icon: Map, label: 'Mappa', path: '/dashboard' },
+        { id: 'leaderboard', icon: Trophy, label: 'Classifica', path: '/leaderboard' },
+        { id: 'shop', icon: ShoppingBag, label: 'Negozio', path: '/shop' },
+        { id: 'profile', icon: User, label: 'Profilo', path: '/profile' },
     ];
 
     return (
@@ -44,12 +24,12 @@ export function BottomNav() {
             {/* Floating Glass Capsule */}
             <div className="glass-panel rounded-full px-2 py-2 flex items-center gap-2 pointer-events-auto bg-cyber-dark/90 backdrop-blur-xl border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                 {navItems.map((item) => {
-                    const isActive = pathname === item.href || (item.href === '/dashboard' && pathname === '/');
+                    const isActive = pathname === item.path || (item.path === '/dashboard' && pathname === '/');
 
                     return (
                         <Link
-                            key={item.href}
-                            href={item.href}
+                            key={item.path}
+                            href={item.path}
                             className="relative group"
                         >
                             <div className={cn(
@@ -74,7 +54,7 @@ export function BottomNav() {
                                             className={cn(
                                                 "w-6 h-6 transition-all duration-300",
                                                 isActive
-                                                    ? cn(item.activeColor, "drop-shadow-[0_0_8px_currentColor]")
+                                                    ? "text-cyber-blue drop-shadow-[0_0_8px_currentColor]"
                                                     : "text-cyber-gray group-hover:text-zinc-300"
                                             )}
                                         />
@@ -83,10 +63,7 @@ export function BottomNav() {
                                     {isActive && (
                                         <motion.div
                                             layoutId="nav-dot"
-                                            className={cn(
-                                                "w-1 h-1 rounded-full shadow-[0_0_5px_currentColor]",
-                                                item.activeColor.replace('text-', 'bg-')
-                                            )}
+                                            className="w-1 h-1 rounded-full shadow-[0_0_5px_currentColor] bg-cyber-blue"
                                         />
                                     )}
                                 </div>

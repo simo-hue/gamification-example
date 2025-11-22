@@ -41,8 +41,8 @@ export default function ShopPage() {
         if (!userId) {
             openModal({
                 type: 'alert',
-                title: 'ACCESS DENIED',
-                message: 'Identity verification required to purchase upgrades.',
+                title: 'ACCESSO NEGATO',
+                message: 'Verifica identità richiesta per acquistare potenziamenti.',
                 actionLabel: 'LOGIN',
                 onAction: () => router.push('/login')
             });
@@ -52,7 +52,7 @@ export default function ShopPage() {
         try {
             if (!stripePromise) {
                 console.error("Stripe key missing");
-                showToast("Payment system offline (Missing Config)", "error");
+                showToast("Sistema di pagamento offline (Configurazione mancante)", "error");
                 setLoading(false);
                 return;
             }
@@ -71,11 +71,11 @@ export default function ShopPage() {
                 window.location.href = url;
             } else {
                 console.error("No checkout URL returned");
-                showToast("Transaction Failed. Please try again.", "error");
+                showToast("Transazione Fallita. Riprova.", "error");
             }
         } catch (error) {
             console.error("Purchase failed:", error);
-            showToast("System Error: Purchase failed.", "error");
+            showToast("Errore di Sistema: Acquisto fallito.", "error");
         } finally {
             setLoading(false);
         }
@@ -85,8 +85,8 @@ export default function ShopPage() {
         if (!userId) {
             openModal({
                 type: 'alert',
-                title: 'ACCESS DENIED',
-                message: 'Identity verification required to access supply drops.',
+                title: 'ACCESSO NEGATO',
+                message: 'Verifica identità richiesta per accedere ai rifornimenti.',
                 actionLabel: 'LOGIN',
                 onAction: () => router.push('/login')
             });
@@ -120,9 +120,9 @@ export default function ShopPage() {
                 // For now, using store action (which updates local state)
                 // Ideally, we should sync with DB state
                 useUserStore.setState((state) => ({ lives: Math.min(state.maxLives, state.lives + 1) }));
-                alert("Reward granted: +1 Heart!");
+                alert("Ricompensa ottenuta: +1 Cuore!");
             } else {
-                alert("Failed to claim reward.");
+                alert("Impossibile riscattare la ricompensa.");
             }
         } catch (error) {
             console.error("Ad reward error:", error);
@@ -139,10 +139,10 @@ export default function ShopPage() {
                     <Zap className="w-6 h-6 text-cyber-blue fill-current" />
                 </div>
                 <h1 className="text-3xl font-bold font-orbitron tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue to-cyber-purple text-glow">
-                    CYBER SUPPLY DEPOT
+                    DEPOSITO FORNITURE CYBER
                 </h1>
                 <p className="text-zinc-400 font-mono text-sm">
-                    Equip yourself for the digital frontier.
+                    Equipaggiati per la frontiera digitale.
                 </p>
             </div>
 
@@ -169,9 +169,9 @@ export default function ShopPage() {
                                 <span className="px-2 py-0.5 rounded text-[10px] bg-yellow-500 text-black font-bold">PLUS</span>
                             </h2>
                             <div className="flex flex-wrap justify-center lg:justify-start gap-3 text-sm text-blue-100">
-                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> Infinite Lives</span>
-                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> No Ads</span>
-                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> Double XP</span>
+                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> Vite Infinite</span>
+                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> No Pubblicità</span>
+                                <span className="flex items-center gap-1"><Check className="w-4 h-4 text-yellow-400" /> Doppi XP</span>
                             </div>
                         </div>
 
@@ -182,7 +182,7 @@ export default function ShopPage() {
                                 disabled={hasInfiniteLives || loading}
                                 className="w-full lg:w-auto px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-black font-bold rounded-xl shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-orbitron tracking-wide flex items-center justify-center gap-2"
                             >
-                                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : hasInfiniteLives ? 'PLAN ACTIVE' : 'UPGRADE - €4.99/mo'}
+                                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : hasInfiniteLives ? 'PIANO ATTIVO' : 'POTENZIA - €4.99/mese'}
                             </button>
                         </div>
                     </div>
@@ -193,7 +193,7 @@ export default function ShopPage() {
             <section className="space-y-4">
                 <div className="flex items-center gap-2 px-2">
                     <Heart className="w-5 h-5 text-cyber-red" />
-                    <h2 className="text-lg font-bold font-orbitron tracking-wide text-white">VITAL RESOURCES</h2>
+                    <h2 className="text-lg font-bold font-orbitron tracking-wide text-white">RISORSE VITALI</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -204,26 +204,26 @@ export default function ShopPage() {
                                 <Battery className="w-6 h-6 text-cyber-red" />
                             </div>
                             <span className="px-2 py-1 rounded-lg bg-white/5 text-xs font-mono text-zinc-400 border border-white/5">
-                                {lives}/{maxLives} HEARTS
+                                {lives}/{maxLives} CUORI
                             </span>
                         </div>
                         <div className="space-y-1 mb-4">
-                            <h3 className="font-bold text-white">Emergency Refill</h3>
-                            <p className="text-xs text-zinc-400">+1 Heart to keep you going.</p>
+                            <h3 className="font-bold text-white">Ricarica Emergenza</h3>
+                            <p className="text-xs text-zinc-400">+1 Cuore per continuare.</p>
                         </div>
                         <button
                             onClick={handleWatchAd}
                             disabled={lives >= maxLives || hasInfiniteLives || adModalOpen}
                             className="w-full py-2 rounded-lg border border-cyber-red/30 text-cyber-red hover:bg-cyber-red hover:text-white transition-all font-mono text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {hasInfiniteLives ? 'INFINITE LIVES ACTIVE' : lives >= maxLives ? 'FULL HEALTH' : adModalOpen ? 'WATCHING...' : 'WATCH AD (FREE)'}
+                            {hasInfiniteLives ? 'VITE INFINITE ATTIVE' : lives >= maxLives ? 'SALUTE COMPLETA' : adModalOpen ? 'VISIONE IN CORSO...' : 'GUARDA AD (GRATIS)'}
                         </button>
                     </div>
 
                     {/* Card 2: Full Restore */}
                     <div className="group relative p-5 rounded-2xl border border-cyber-green/30 bg-cyber-green/5 backdrop-blur-xl hover:bg-cyber-green/10 transition-all shadow-[0_0_15px_rgba(102,252,241,0.05)]">
                         <div className="absolute top-0 right-0 px-2 py-1 bg-[#66FCF1] text-black text-[10px] font-bold rounded-bl-xl rounded-tr-xl">
-                            BEST VALUE
+                            MIGLIOR VALORE
                         </div>
                         <div className="flex items-start justify-between mb-4">
                             <div className="p-3 rounded-xl bg-cyber-green/20 border border-cyber-green/30 group-hover:border-cyber-green/60 transition-colors">
@@ -231,8 +231,8 @@ export default function ShopPage() {
                             </div>
                         </div>
                         <div className="space-y-1 mb-4">
-                            <h3 className="font-bold text-white">System Reboot</h3>
-                            <p className="text-xs text-cyber-green/80">Restore full 5 Hearts instantly.</p>
+                            <h3 className="font-bold text-white">Riavvio Sistema</h3>
+                            <p className="text-xs text-cyber-green/80">Ripristina 5 Cuori istantaneamente.</p>
                         </div>
                         <button
                             onClick={() => handlePurchase('price_reboot_id', 'payment', 'REFILL_HEARTS')}
@@ -249,7 +249,7 @@ export default function ShopPage() {
             <section className="space-y-4">
                 <div className="flex items-center gap-2 px-2">
                     <Shield className="w-5 h-5 text-cyber-blue" />
-                    <h2 className="text-lg font-bold font-orbitron tracking-wide text-white">TACTICAL UPGRADES</h2>
+                    <h2 className="text-lg font-bold font-orbitron tracking-wide text-white">POTENZIAMENTI TATTICI</h2>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
@@ -259,8 +259,8 @@ export default function ShopPage() {
                             <Snowflake className="w-6 h-6 text-cyan-400" />
                         </div>
                         <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-white">Streak Freeze</h3>
-                            <p className="text-xs text-zinc-400 line-clamp-1">Miss a day without losing your streak.</p>
+                            <h3 className="font-bold text-white">Congela Serie</h3>
+                            <p className="text-xs text-zinc-400 line-clamp-1">Salta un giorno senza perdere la serie.</p>
                         </div>
                         <button
                             onClick={() => handlePurchase('price_streak_freeze_id', 'payment', 'STREAK_FREEZE')}
@@ -303,8 +303,8 @@ export default function ShopPage() {
                         </div>
 
                         <div>
-                            <h3 className="text-2xl font-bold font-orbitron text-white mb-2">INCOMING TRANSMISSION</h3>
-                            <p className="text-zinc-400">Receiving supply drop... Stand by.</p>
+                            <h3 className="text-2xl font-bold font-orbitron text-white mb-2">TRASMISSIONE IN ARRIVO</h3>
+                            <p className="text-zinc-400">Ricezione rifornimento... Attendere.</p>
                         </div>
 
                         <div className="text-4xl font-mono font-bold text-cyber-blue">
@@ -312,7 +312,7 @@ export default function ShopPage() {
                         </div>
 
                         <p className="text-xs text-zinc-600 uppercase tracking-widest">
-                            Do not close this window
+                            Non chiudere questa finestra
                         </p>
                     </div>
                 </div>

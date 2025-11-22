@@ -40,16 +40,16 @@ export function SystemFailureModal({ onRefill, onPremium }: SystemFailureModalPr
                     </div>
 
                     <h1 className="text-4xl font-bold font-orbitron text-cyber-red tracking-widest animate-glitch text-glow-danger">
-                        SYSTEM FAILURE
+                        ERRORE DI SISTEMA
                     </h1>
 
                     <p className="text-zinc-400 font-mono text-sm">
-                        Defense protocols offline. <span className="text-cyber-red font-bold">0/5 Lives remaining.</span>
+                        Protocolli di difesa offline. <span className="text-cyber-red font-bold">0/5 Vite rimanenti.</span>
                     </p>
 
                     <div className="inline-block px-4 py-1 bg-cyber-red/10 border border-cyber-red/30 rounded-full">
                         <p className="text-xs font-mono text-cyber-red animate-pulse">
-                            Next recharge in {formatTime(countdown)}
+                            Prossima ricarica in {formatTime(countdown)}
                         </p>
                     </div>
                 </div>
@@ -65,7 +65,7 @@ export function SystemFailureModal({ onRefill, onPremium }: SystemFailureModalPr
                         className="relative overflow-visible p-1 rounded-2xl bg-gradient-to-br from-cyber-dark to-purple-900 border border-yellow-500/50 shadow-[0_0_20px_rgba(234,179,8,0.2)] group mt-4"
                     >
                         <div className="absolute -top-3 right-4 bg-yellow-500 text-black text-[10px] font-bold px-3 py-1 rounded-full font-orbitron shadow-lg z-10">
-                            RECOMMENDED
+                            CONSIGLIATO
                         </div>
 
                         <div className="bg-black/40 p-4 rounded-xl flex items-center gap-4 h-full">
@@ -73,11 +73,11 @@ export function SystemFailureModal({ onRefill, onPremium }: SystemFailureModalPr
                                 <Infinity className="w-6 h-6" />
                             </div>
                             <div className="text-left flex-1">
-                                <h3 className="font-bold text-white font-orbitron tracking-wide">UNLIMITED POWER</h3>
-                                <p className="text-xs text-zinc-300">Infinite Lives + No Ads</p>
+                                <h3 className="font-bold text-white font-orbitron tracking-wide">POTERE ILLIMITATO</h3>
+                                <p className="text-xs text-zinc-300">Vite Infinite + No Pubblicità</p>
                             </div>
                             <div className="px-4 py-2 bg-yellow-500 text-black font-bold rounded-lg text-sm whitespace-nowrap shadow-[0_0_10px_rgba(234,179,8,0.4)] animate-pulse">
-                                UPGRADE
+                                POTENZIA
                             </div>
                         </div>
                     </motion.button>
@@ -94,12 +94,12 @@ export function SystemFailureModal({ onRefill, onPremium }: SystemFailureModalPr
                                 <BatteryFull className="w-6 h-6" />
                             </div>
                             <div className="text-left">
-                                <h3 className="font-bold text-white font-orbitron tracking-wide">EMERGENCY RECHARGE</h3>
-                                <p className="text-xs text-zinc-400">Instantly refill 5 Lives</p>
+                                <h3 className="font-bold text-white font-orbitron tracking-wide">RICARICA EMERGENZA</h3>
+                                <p className="text-xs text-zinc-400">Ricarica istantanea 5 Vite</p>
                             </div>
                         </div>
                         <div className="px-4 py-2 border border-[#66FCF1] text-[#66FCF1] bg-transparent hover:bg-[#66FCF1] hover:text-black hover:shadow-[0_0_15px_rgba(102,252,241,0.5)] font-bold rounded-lg transition-all duration-300 whitespace-nowrap">
-                            REFILL €0.99
+                            RICARICA €0.99
                         </div>
                     </motion.button>
                 </div>
@@ -109,7 +109,7 @@ export function SystemFailureModal({ onRefill, onPremium }: SystemFailureModalPr
                     href="/"
                     className="block text-zinc-600 text-xs hover:text-white transition-colors mt-4 font-mono uppercase tracking-widest"
                 >
-                    [ Return to Base ]
+                    [ Ritorna alla Base ]
                 </Link>
 
             </div>

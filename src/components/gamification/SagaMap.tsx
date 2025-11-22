@@ -44,7 +44,7 @@ export function SagaMap({ levels }: SagaMapProps) {
         return (
             <div className="flex flex-col items-center justify-center h-96 space-y-4 text-cyber-blue animate-pulse">
                 <div className="w-16 h-16 border-4 border-t-transparent border-cyber-blue rounded-full animate-spin" />
-                <p className="font-orbitron tracking-widest">SYSTEM BOOTING...</p>
+                <p className="font-orbitron tracking-widest">AVVIO SISTEMA...</p>
             </div>
         );
     }
@@ -225,7 +225,7 @@ export function SagaMap({ levels }: SagaMapProps) {
                                                 {isNextUp && !isBoss && (
                                                     <div className="absolute top-0 right-0 bg-yellow-500/10 text-yellow-500 text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-yellow-500/50 font-orbitron tracking-wider flex items-center gap-1 shadow-[0_0_10px_rgba(234,179,8,0.2)]">
                                                         <Lock className="w-3 h-3" />
-                                                        NEXT UNLOCK
+                                                        SBLOCCA ORA
                                                     </div>
                                                 )}
 
@@ -233,7 +233,7 @@ export function SagaMap({ levels }: SagaMapProps) {
                                                 {isActive && (
                                                     <div className="absolute top-0 right-0 bg-cyber-blue/10 text-cyber-blue text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-cyber-blue/50 font-orbitron tracking-wider flex items-center gap-1 shadow-[0_0_10px_rgba(69,162,158,0.2)] animate-pulse">
                                                         <Play className="w-3 h-3 fill-current" />
-                                                        CURRENT MISSION
+                                                        MISSIONE CORRENTE
                                                     </div>
                                                 )}
 
@@ -241,7 +241,7 @@ export function SagaMap({ levels }: SagaMapProps) {
                                                 {isBoss && isLocked && (
                                                     <div className="absolute top-0 right-0 bg-cyber-red/10 text-cyber-red text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-cyber-red/50 font-orbitron tracking-wider flex items-center gap-1 animate-pulse">
                                                         <Skull className="w-3 h-3" />
-                                                        THREAT DETECTED
+                                                        MINACCIA RILEVATA
                                                     </div>
                                                 )}
 
@@ -254,7 +254,7 @@ export function SagaMap({ levels }: SagaMapProps) {
                                                             isLocked ? "text-zinc-300" : "text-white"
                                                         )}
                                                     >
-                                                        {isBoss ? 'BOSS LEVEL' : `Day ${level.day_number}`}
+                                                        {isBoss ? 'LIVELLO BOSS' : `Giorno ${level.day_number}`}
                                                     </h4>
                                                     <p className={cn(
                                                         "text-xs line-clamp-2 max-w-[85%]",
@@ -322,10 +322,10 @@ export function SagaMap({ levels }: SagaMapProps) {
                                 {/* Title */}
                                 <div className="text-center space-y-2">
                                     <h3 className="text-xl font-bold font-orbitron text-cyber-red text-glow-danger">
-                                        ACCESS DENIED
+                                        ACCESSO NEGATO
                                     </h3>
                                     <p className="text-sm text-cyan-400 font-mono">
-                                        {lockedLevel.is_boss_level ? 'BOSS LEVEL' : `Day ${lockedLevel.day_number}`}
+                                        {lockedLevel.is_boss_level ? 'LIVELLO BOSS' : `Giorno ${lockedLevel.day_number}`}
                                     </p>
                                 </div>
 
@@ -335,10 +335,10 @@ export function SagaMap({ levels }: SagaMapProps) {
                                         <AlertCircle className="w-5 h-5 text-cyber-red flex-shrink-0 mt-0.5" />
                                         <div className="space-y-2">
                                             <p className="text-sm text-zinc-300">
-                                                <span className="text-white font-bold">"{lockedLevel.title}"</span> is currently locked.
+                                                <span className="text-white font-bold">"{lockedLevel.title}"</span> è attualmente bloccato.
                                             </p>
                                             <p className="text-xs text-zinc-400">
-                                                Complete the previous {lockedLevel.is_boss_level ? 'levels' : 'day'} in your journey to unlock this challenge.
+                                                Completa i livelli precedenti per sbloccare questa sfida.
                                             </p>
                                         </div>
                                     </div>
@@ -349,7 +349,7 @@ export function SagaMap({ levels }: SagaMapProps) {
                                     onClick={() => setShowLockedModal(false)}
                                     className="w-full py-3 bg-cyber-blue/10 border border-cyber-blue text-cyber-blue font-bold rounded-xl hover:bg-cyber-blue hover:text-cyber-dark transition-all font-orbitron tracking-wide"
                                 >
-                                    UNDERSTOOD
+                                    CAPITO
                                 </button>
                             </div>
                         </motion.div>

@@ -35,8 +35,8 @@ export const MOCK_QUIZZES: Quiz[] = [
     // Tier 1: The Newbie
     {
         id: '1',
-        title: 'Module 1: AI Basics & Myths',
-        description: 'Understand what AI really is and bust common sci-fi myths.',
+        title: 'Modulo 1: Basi IA & Miti',
+        description: 'Capisci cos\'è davvero l\'IA e sfata i miti della fantascienza.',
         xpReward: 50,
         completed: false,
         locked: false,
@@ -44,72 +44,72 @@ export const MOCK_QUIZZES: Quiz[] = [
             {
                 id: 'm1q1',
                 type: 'text',
-                text: 'What is "Artificial Intelligence" (AI) in simple terms?',
+                text: 'Cos\'è l\'"Intelligenza Artificiale" (IA) in parole semplici?',
                 options: [
-                    'A robot that can feel emotions',
-                    'Computer systems that can learn and solve problems',
-                    'Magic inside a microchip',
-                    'A brain grown in a lab'
+                    'Un robot che prova emozioni',
+                    'Sistemi informatici che imparano e risolvono problemi',
+                    'Magia dentro un microchip',
+                    'Un cervello coltivato in laboratorio'
                 ],
                 correctAnswer: 1,
-                explanation: 'AI is simply software that can learn from data to perform tasks that typically require human intelligence, like recognizing speech or patterns.'
+                explanation: 'L\'IA è semplicemente un software che impara dai dati per svolgere compiti che richiedono intelligenza umana, come riconoscere schemi.'
             },
             {
                 id: 'm1q2',
                 type: 'text',
-                text: 'True or False: AI can currently "think" and have feelings like humans.',
+                text: 'Vero o Falso: L\'IA può "pensare" e avere sentimenti come gli umani.',
                 options: [
-                    'True, they are conscious',
-                    'False, they only process math and data'
+                    'Vero, sono coscienti',
+                    'Falso, elaborano solo dati e matematica'
                 ],
                 correctAnswer: 1,
-                explanation: 'AI does not have feelings or consciousness. It processes vast amounts of data to predict outcomes, but it doesn\'t "know" what it\'s doing.'
+                explanation: 'L\'IA non ha sentimenti o coscienza. Elabora enormi quantità di dati per prevedere risultati, ma non "sa" cosa sta facendo.'
             },
             {
                 id: 'm1q3',
                 type: 'text',
-                text: 'Which of these is a common MYTH about AI?',
+                text: 'Quale di questi è un MITO comune sull\'IA?',
                 options: [
-                    'AI can write poetry',
-                    'AI can beat humans at chess',
-                    'AI will take over the world tomorrow',
-                    'AI helps doctors diagnose diseases'
+                    'L\'IA può scrivere poesie',
+                    'L\'IA può battere gli umani a scacchi',
+                    'L\'IA conquisterà il mondo domani',
+                    'L\'IA aiuta i medici nelle diagnosi'
                 ],
                 correctAnswer: 2,
-                explanation: 'The idea of AI suddenly "taking over" is a sci-fi trope. Current AI is a tool controlled by humans, with specific limitations.'
+                explanation: 'L\'idea che l\'IA "prenda il sopravvento" è un cliché da film. L\'IA attuale è uno strumento controllato dagli umani, con limiti precisi.'
             },
             {
                 id: 'm1q4',
                 type: 'text',
-                text: 'What is a "Deepfake"?',
+                text: 'Cos\'è un "Deepfake"?',
                 options: [
-                    'A deep ocean creature',
-                    'AI-generated media that replaces a person\'s likeness',
-                    'A fake account on social media',
-                    'A type of computer virus'
+                    'Una creatura degli abissi',
+                    'Media generati da IA che sostituiscono il volto o la voce di una persona',
+                    'Un account falso sui social',
+                    'Un tipo di virus informatico'
                 ],
                 correctAnswer: 1,
-                explanation: 'Deepfakes use deep learning to manipulate or generate visual and audio content, often making people say or do things they never did.'
+                explanation: 'I Deepfake usano l\'IA per manipolare video e audio, facendo dire o fare alle persone cose che non hanno mai fatto.'
             },
             {
                 id: 'm1q5',
                 type: 'text',
-                text: 'Why is it important to spot AI-generated content?',
+                text: 'Perché è importante riconoscere i contenuti generati da IA?',
                 options: [
-                    'To win trivia games',
-                    'To avoid being tricked by misinformation or scams',
-                    'Because AI art is ugly',
-                    'It is not important'
+                    'Per vincere ai quiz',
+                    'Per evitare di essere ingannati da truffe o disinformazione',
+                    'Perché l\'arte IA è brutta',
+                    'Non è importante'
                 ],
                 correctAnswer: 1,
-                explanation: 'Scammers use AI to create fake news, fake evidence, and fake personas. Spotting it helps keep you safe from manipulation.'
+                explanation: 'I truffatori usano l\'IA per creare fake news e false identità. Riconoscerla ti protegge dalla manipolazione.'
             }
         ]
     },
     {
         id: '2',
-        title: 'Special Mission: Urgent Password Leak!',
-        description: 'A high-stakes challenge! Your password might be compromised.',
+        title: 'Missione Speciale: Password Compromessa!',
+        description: 'Sfida ad alto rischio! La tua password potrebbe essere stata rubata.',
         xpReward: 100,
         completed: false,
         locked: true,
@@ -119,35 +119,35 @@ export const MOCK_QUIZZES: Quiz[] = [
             {
                 id: 'sm1q1',
                 type: 'text',
-                text: 'You see a notification: "Password found in data breach". What is your FIRST step?',
+                text: 'Ricevi una notifica: "Password trovata in una violazione dati". Qual è il PRIMO passo?',
                 options: [
-                    'Ignore it, it\'s probably fake',
-                    'Change your password immediately on the affected site',
-                    'Delete your account',
-                    'Email the hacker'
+                    'Ignorala, probabilmente è falsa',
+                    'Cambia immediatamente la password sul sito colpito',
+                    'Elimina il tuo account',
+                    'Scrivi all\'hacker'
                 ],
                 correctAnswer: 1,
-                explanation: 'Immediate action is required. Change the password on that site and any other site where you used the same password.'
+                explanation: 'Agisci subito. Cambia la password su quel sito e su qualsiasi altro dove usavi la stessa.'
             },
             {
                 id: 'sm1q2',
                 type: 'text',
-                text: 'What makes a password "Strong"?',
+                text: 'Cosa rende una password "Forte"?',
                 options: [
-                    'Your pet\'s name',
+                    'Il nome del tuo animale domestico',
                     '123456',
-                    'A mix of letters, numbers, and symbols, at least 12 chars long',
-                    'Your birthday'
+                    'Un mix di lettere, numeri e simboli, lunga almeno 12 caratteri',
+                    'La tua data di nascita'
                 ],
                 correctAnswer: 2,
-                explanation: 'Length and complexity are key. Use a password manager to generate and store unique, complex passwords for every site.'
+                explanation: 'Lunghezza e complessità sono fondamentali. Usa un password manager per generare password uniche e complesse.'
             }
         ]
     },
     {
         id: '3',
-        title: 'Milestone: Setup 2FA',
-        description: 'Secure your account with Two-Factor Authentication.',
+        title: 'Traguardo: Configura 2FA',
+        description: 'Proteggi il tuo account con l\'Autenticazione a Due Fattori.',
         xpReward: 150,
         completed: false,
         locked: true,
@@ -157,23 +157,23 @@ export const MOCK_QUIZZES: Quiz[] = [
             {
                 id: 'ms1q1',
                 type: 'text',
-                text: 'What is 2FA (Two-Factor Authentication)?',
+                text: 'Cos\'è la 2FA (Autenticazione a Due Fattori)?',
                 options: [
-                    'Logging in twice',
-                    'A second layer of security, like a code sent to your phone',
-                    'Two people using one account',
-                    'A backup password'
+                    'Accedere due volte',
+                    'Un secondo livello di sicurezza, come un codice inviato al telefono',
+                    'Due persone che usano un account',
+                    'Una password di riserva'
                 ],
                 correctAnswer: 1,
-                explanation: '2FA adds a second step to verify your identity, making it much harder for hackers to access your account even if they steal your password.'
+                explanation: 'La 2FA aggiunge un secondo passaggio per verificare la tua identità, rendendo molto più difficile per gli hacker accedere al tuo account.'
             }
         ]
     },
     // Tier 2: The Social Surfer
     {
         id: '4',
-        title: 'Module 2: The Scam Detector',
-        description: 'Learn to recognize phishing and the "Grandparent Scam".',
+        title: 'Modulo 2: Rilevatore di Truffe',
+        description: 'Impara a riconoscere il Phishing e la "Truffa dei Nonni".',
         xpReward: 75,
         completed: false,
         locked: true,
@@ -181,75 +181,75 @@ export const MOCK_QUIZZES: Quiz[] = [
             {
                 id: 'm2q1',
                 type: 'text',
-                text: 'You receive an email from "Netf1ix" saying your account is suspended. What do you do?',
+                text: 'Ricevi un\'email da "Netf1ix" che dice che il tuo account è sospeso. Cosa fai?',
                 options: [
-                    'Click the link immediately to fix it',
-                    'Reply with your password',
-                    'Check the sender email address carefully',
-                    'Panic and call the police'
+                    'Clicchi subito sul link per risolvere',
+                    'Rispondi con la tua password',
+                    'Controlli attentamente l\'indirizzo email del mittente',
+                    'Vai nel panico e chiami la polizia'
                 ],
                 correctAnswer: 2,
-                explanation: 'Phishing emails often use slight misspellings (like "Netf1ix"). Always verify the sender\'s actual email address before clicking anything.'
+                explanation: 'Le email di phishing usano spesso piccoli errori (come "Netf1ix"). Verifica sempre il vero indirizzo del mittente prima di cliccare.'
             },
             {
                 id: 'm2q2',
                 type: 'text',
-                text: 'What is the "Grandparent Scam"?',
+                text: 'Cos\'è la "Truffa dei Nonni"?',
                 options: [
-                    'Scammers stealing from nursing homes',
-                    'A scammer using AI voice cloning to pretend to be a grandchild in trouble',
-                    'Selling fake dentures',
-                    'A discount card for seniors'
+                    'Truffatori che rubano nelle case di riposo',
+                    'Un truffatore usa l\'IA per clonare la voce di un nipote in difficoltà',
+                    'Vendere dentiere false',
+                    'Una carta sconto per anziani'
                 ],
                 correctAnswer: 1,
-                explanation: 'Scammers use short audio clips from social media to clone a voice, then call relatives claiming to be in jail or hospital and needing money instantly.'
+                explanation: 'I truffatori usano brevi audio dai social per clonare una voce, poi chiamano i parenti fingendo di essere in ospedale e chiedendo soldi.'
             },
             {
                 id: 'm2q3',
                 type: 'text',
-                text: 'If a "relative" calls asking for money via Gift Cards or Bitcoin, it is likely:',
+                text: 'Se un "parente" chiama chiedendo soldi via Gift Card o Bitcoin, è probabilmente:',
                 options: [
-                    'A generic emergency',
-                    'A scam',
-                    'A convenient way to pay',
-                    'A banking error'
+                    'Un\'emergenza generica',
+                    'Una truffa',
+                    'Un modo comodo per pagare',
+                    'Un errore bancario'
                 ],
                 correctAnswer: 1,
-                explanation: 'Legitimate emergencies never require payment via untraceable methods like Gift Cards or Crypto. This is a huge red flag.'
+                explanation: 'Le vere emergenze non richiedono mai pagamenti non tracciabili come Gift Card o Criptovalute. È un enorme campanello d\'allarme.'
             },
             {
                 id: 'm2q4',
                 type: 'text',
-                text: 'How can you verify if a distress call is real?',
+                text: 'Come puoi verificare se una richiesta di aiuto è reale?',
                 options: [
-                    'Send the money just in case',
-                    'Hang up and call the person back on their known number',
-                    'Ask them a secret question only they would know',
-                    'Both B and C'
+                    'Manda i soldi per sicurezza',
+                    'Riaggancia e richiama la persona sul suo numero conosciuto',
+                    'Fai una domanda segreta che solo lei conoscerebbe',
+                    'Sia B che C'
                 ],
                 correctAnswer: 3,
-                explanation: 'Always verify. Hang up and call their real number. Having a family "safe word" or asking a specific personal question can also expose the AI bot.'
+                explanation: 'Verifica sempre. Riaggancia e chiama il vero numero. Avere una "parola d\'ordine" familiare può smascherare l\'IA.'
             },
             {
                 id: 'm2q5',
                 type: 'text',
-                text: 'What is "Voice Cloning"?',
+                text: 'Cos\'è il "Voice Cloning"?',
                 options: [
-                    'Singing in the shower',
-                    'Using AI to mimic a specific person\'s voice',
-                    'Recording a voice memo',
-                    'Speaking with an accent'
+                    'Cantare sotto la doccia',
+                    'Usare l\'IA per imitare la voce di una persona specifica',
+                    'Registrare un memo vocale',
+                    'Parlare con un accento'
                 ],
                 correctAnswer: 1,
-                explanation: 'AI tools can analyze a few seconds of audio to generate a synthetic voice that sounds almost exactly like the original speaker.'
+                explanation: 'Gli strumenti IA possono analizzare pochi secondi di audio per generare una voce sintetica quasi identica a quella originale.'
             }
         ]
     },
     // Tier 3: The Pro Shopper
     {
         id: '5',
-        title: 'Module 3: Spot the Deepfake',
-        description: 'Train your eyes to spot the visual glitches in AI images.',
+        title: 'Modulo 3: Caccia al Deepfake',
+        description: 'Allena i tuoi occhi a notare i difetti visivi nelle immagini IA.',
         xpReward: 100,
         completed: false,
         locked: true,
@@ -257,61 +257,61 @@ export const MOCK_QUIZZES: Quiz[] = [
             {
                 id: 'm3q1',
                 type: 'image_verification',
-                text: 'Is this image Real or AI?',
+                text: 'Questa immagine è Reale o IA?',
                 imageUrl: 'https://placehold.co/600x400/png?text=AI+Hand+Glitch',
-                options: ['Real', 'AI'],
+                options: ['Reale', 'IA'],
                 correctAnswer: 1,
                 hotspots: [
-                    { x: 50, y: 50, label: 'Look at the fingers. AI often struggles with hands, resulting in too many or distorted fingers.' }
+                    { x: 50, y: 50, label: 'Guarda le dita. L\'IA spesso sbaglia le mani, creando dita in più o distorte.' }
                 ],
-                explanation: 'AI models often fail to render complex anatomy like hands correctly. Look for extra fingers or "melted" joints.'
+                explanation: 'I modelli IA faticano con l\'anatomia complessa come le mani. Cerca dita extra o articolazioni "fuse".'
             },
             {
                 id: 'm3q2',
                 type: 'image_verification',
-                text: 'Real photo or AI generation?',
+                text: 'Foto reale o generazione IA?',
                 imageUrl: 'https://placehold.co/600x400/png?text=Blurry+Background+Text',
-                options: ['Real', 'AI'],
+                options: ['Reale', 'IA'],
                 correctAnswer: 1,
                 hotspots: [
-                    { x: 20, y: 30, label: 'The text on the sign is gibberish.' },
-                    { x: 80, y: 20, label: 'The background faces are distorted.' }
+                    { x: 20, y: 30, label: 'Il testo sul cartello è incomprensibile.' },
+                    { x: 80, y: 20, label: 'I volti sullo sfondo sono distorti.' }
                 ],
-                explanation: 'AI struggles with text and background details. If the text looks like an alien language or background people look like blobs, it\'s likely AI.'
+                explanation: 'L\'IA fatica con il testo e i dettagli dello sfondo. Se il testo sembra una lingua aliena, è probabilmente IA.'
             },
             {
                 id: 'm3q3',
                 type: 'image_verification',
-                text: 'Can you spot the fake?',
+                text: 'Riesci a trovare il falso?',
                 imageUrl: 'https://placehold.co/600x400/png?text=Perfect+Skin+Texture',
-                options: ['Real', 'AI'],
+                options: ['Reale', 'IA'],
                 correctAnswer: 1,
                 hotspots: [
-                    { x: 50, y: 40, label: 'Skin texture is too smooth, like plastic.' }
+                    { x: 50, y: 40, label: 'La texture della pelle è troppo liscia, come plastica.' }
                 ],
-                explanation: 'AI often creates "perfect" skin without pores or natural imperfections, giving it a plastic or airbrushed look.'
+                explanation: 'L\'IA crea spesso pelle "perfetta" senza pori o imperfezioni naturali, dando un aspetto plastico.'
             },
             {
                 id: 'm3q4',
                 type: 'image_verification',
-                text: 'Is this person real?',
+                text: 'Questa persona è reale?',
                 imageUrl: 'https://placehold.co/600x400/png?text=Mismatched+Earrings',
-                options: ['Real', 'AI'],
+                options: ['Reale', 'IA'],
                 correctAnswer: 1,
                 hotspots: [
-                    { x: 30, y: 40, label: 'The earring on the left doesn\'t match the right.' }
+                    { x: 30, y: 40, label: 'L\'orecchino sinistro non corrisponde al destro.' }
                 ],
-                explanation: 'AI often misses symmetry. Check for mismatched accessories, earrings, or eyeglass frames.'
+                explanation: 'L\'IA spesso manca di simmetria. Controlla accessori spaiati, orecchini o montature degli occhiali.'
             },
             {
                 id: 'm3q5',
                 type: 'image_verification',
-                text: 'Real or AI?',
+                text: 'Reale o IA?',
                 imageUrl: 'https://placehold.co/600x400/png?text=Real+Photo',
-                options: ['Real', 'AI'],
+                options: ['Reale', 'IA'],
                 correctAnswer: 0,
                 hotspots: [],
-                explanation: 'This is a real photo! The lighting is consistent, hands are natural, and background details make sense.'
+                explanation: 'Questa è una foto reale! L\'illuminazione è coerente, le mani sono naturali e i dettagli dello sfondo hanno senso.'
             }
         ]
     }

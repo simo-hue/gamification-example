@@ -27,10 +27,10 @@ async function seed() {
     // Group by Module (Week)
     // We'll assume 4 modules based on the day ranges
     const modulesData = [
-        { title: 'Week 1: The Iron Shield', description: 'Passwords, Phishing, and AI Basics', theme_color: 'blue', order_index: 1, day_start: 1, day_end: 7 },
-        { title: 'Week 2: Finance & Fraud Defense', description: 'Banking, Crypto, and Identity Theft', theme_color: 'green', order_index: 2, day_start: 8, day_end: 14 },
-        { title: 'Week 3: Corporate Survival', description: 'AI in the Workplace and Data Privacy', theme_color: 'purple', order_index: 3, day_start: 15, day_end: 21 }, // Adjusting range slightly to fit 4 weeks
-        { title: 'Week 4: Civil Defense', description: 'Disinformation and Fake News', theme_color: 'red', order_index: 4, day_start: 22, day_end: 30 }
+        { title: 'Settimana 1: Le Basi', description: 'Password, Phishing e Basi IA', theme_color: 'blue', order_index: 1, day_start: 1, day_end: 7 },
+        { title: 'Settimana 2: Difesa Finanziaria', description: 'Banche, Crypto e Furto d\'Identità', theme_color: 'green', order_index: 2, day_start: 8, day_end: 14 },
+        { title: 'Settimana 3: Sopravvivenza Aziendale', description: 'IA sul Lavoro e Privacy Dati', theme_color: 'purple', order_index: 3, day_start: 15, day_end: 21 }, // Adjusting range slightly to fit 4 weeks
+        { title: 'Settimana 4: Difesa Civile', description: 'Disinformazione e Fake News', theme_color: 'red', order_index: 4, day_start: 22, day_end: 30 }
     ];
 
     for (const mod of modulesData) {
